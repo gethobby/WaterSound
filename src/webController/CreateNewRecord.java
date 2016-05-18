@@ -1,22 +1,20 @@
 package webController;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
+import developConfig.Gobal;
 import model.DoLoginCheck;
 import model.GeoModel;
 import model.NodeMachine;
 import model.ObjectSoft;
 import model.UploadFile;
+import model.Util;
 
 
 /**
@@ -131,13 +129,13 @@ public class CreateNewRecord extends HttpServlet {
 		if(recordtype!=null&&recordtype.equals("modelfile"))
 		{
 			UploadFile file=new UploadFile();
+			String nodeIP = request.getParameter("nodeIP");
+			String modelFile = request.getParameter("modelName");
 			
-			file.setTargetID(Integer.parseInt(request.getParameter("TargetObjectID")));
-			file.setFileName(request.getParameter("FileName"));
-			file.setSize(Integer.parseInt(request.getParameter("FileSize")));
-			file.setFileDescription(request.getParameter("FileDescription"));
-			file.setStorePath(request.getParameter("FileStorePath"));//模型文件存储的位置，后续根据要求修改
-			file.setFileSecretLevel(request.getParameter("FileSecretLevel"));
+			file.setFileName(modelFile);
+			file.setStorePath(Gobal.NODE_OBJECT_DIR);//模型文件存储的位置，后续根据要求修改
+			file.setFileDescription(request.getParameter("modelDes"));
+		
 			String softlist="";
 			String[] accesssofts=request.getParameterValues("ObjectiveSoftNames[]");
 			if(accesssofts!=null)
@@ -151,19 +149,18 @@ public class CreateNewRecord extends HttpServlet {
 				}
 			}
 			file.setObjectiveSoft(softlist);
-			file.setFileSource(request.getParameter("FileSource"));
-			file.setContactPerson(request.getParameter("ContactPerson"));
-			file.setContactComp(request.getParameter("ContactComp"));
-			file.setContactAddress(request.getParameter("ContactAddress"));
-			file.setContactZip(request.getParameter("ContactZip"));
-			file.setContactTel(request.getParameter("ContactTel"));
-			file.setContactEmail(request.getParameter("ContactEmail"));
-			if(!file.checkInsert()){
+			if(!file.checkInsert(nodeIP)){
 				System.out.println("模型文件已经存在！");
 				response.getWriter().append("failed"+","+"模型文件已存在！");
 			}
 			else{
-				if(file.recordInsert()){ 
+				// 先Socket上传文件成功到节点机后，再在对应的节点机MYSQL表中插入一条模型记录
+				HttpSession session=request.getSession();
+				String username = (String) session.getAttribute("username");
+				String name = (username==null||username.equals(""))? "server":username;
+				System.out.println("用户"+name+",正在上传模型文件！");
+				if (Util.SendModelFile("0",nodeIP, 6000,  Gobal.OBJECT_ROOT_DIR+modelFile, name)) {
+					if(file.recordInsert(nodeIP)){ 
 					System.out.println("upload Model File success");
 					response.getWriter().append("success");
 				}
@@ -171,6 +168,13 @@ public class CreateNewRecord extends HttpServlet {
 					System.out.println("upload Model File failed!");
 					response.getWriter().append("failed"+","+"Modelfile already exists！");
 				}
+				}
+				else
+				{
+					System.out.println("upload Model File failed!");
+					response.getWriter().append("failed"+","+"upload Model File failed！");
+				}
+							
 			}
 		}
 		if(recordtype!=null&&recordtype.equals("user"))

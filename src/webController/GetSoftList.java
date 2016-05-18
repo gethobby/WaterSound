@@ -89,6 +89,7 @@ public class GetSoftList extends HttpServlet {
 					request.getRequestDispatcher("/Webfront/fileUpload.jsp")
 							.forward(request, response);
 					} 
+				
 				else if(request.getAttribute("description") != null){
 					request.removeAttribute("description");
 					request.getRequestDispatcher("/Webfront/ComputeMain.jsp")

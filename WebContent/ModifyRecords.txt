@@ -40,6 +40,10 @@
                
 6.为了处理下载模型文件，添加servlet downloadModelFile，处理下载.
 7.引入存储节点选择selection,实现ModelList，点击加载前，不显示模型文件:
+
+8.修改<a href="ModelMain.jsp" class="models" title="Models"><span class="icon">&#59214;</span> 模型管理</a>为
+  <a href="ModelList.jsp" class="models" title="Models"><span class="icon">&#59214;</span> 模型管理</a>
+   直接显示模型列表
                                           			
   
  

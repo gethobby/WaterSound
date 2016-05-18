@@ -15,6 +15,8 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 <% 
 }
 %>
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -99,7 +101,7 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 				</hgroup> 
 				<aside>
 				<button class="left-btn" style="font-size: 10px; background: #719e37;margin-top:-15px" onclick="document.getElementById('notify').style.display='none';jianmo();">建模</button>
-					<button class="right-btn" style="font-size: 10px; background: #719e37;margin-top:-15px" onclick="newObjectinfo()">+添加目标</button>
+					<button class="right-btn" style="font-size: 10px; background: #719e37;margin-top:-15px" onclick="newObjectinfo()">+上传模型</button>
 				</aside> 
 			</header>
 			<div class="content no-padding timeline" style="margin-left:20px；height:auto">
@@ -189,8 +191,8 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 		<header>
 			<span class="icon">&#59153;</span>
 			<hgroup>
-				<h1>新目标</h1>
-				<h2>增加新目标信息</h2>
+				<h1>新模型</h1>
+				<h2>上传模型文件到当前存储节点</h2>
 			</hgroup>
 			<aside>
 				<span onclick="modelWindowClose();closenewObjectinfo();">
@@ -199,32 +201,21 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 			</aside>
 		</header>
 		<div class="content">
-			模型名称：<input id="ObjectName" style="width:250px"><a style="color:red;display:none">✖</a><br>
-			目标图片：
-			<form action="../Upload.jsp" id="form1" name="form1" encType="multipart/form-data"  method="post" target="hidden_frame" >   
-    			<input type="file" id="file" name="file" style="width:150px"><input id="ObjectLogo" type="hidden">   
-    			<input type="submit" value="上传文件" style="width:80px"><span id="msg"></span><br><font color="red">支持JPG,JPEG,BMP,PNG文件的上传</font>                 
+		模型位置：
+			<form action="" id="form1" name="form1" encType="multipart/form-data"  method="post" target="hidden_frame" >   
+    			<input type="file" id="file" name="file"  onchange="filledModelName()" style="width:150px"><input id="ObjectLogo" type="hidden">   
+    			<span id="msg"></span><br><font color="red">请选择系统指定模型文件夹内文件上传</font>                 
     			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>   
-			</form> <a style="color:red;display:none">✖</a><br>
-			目标分类：<div id="ObjectType" style="display:inline">
-				<select id="ObjectType1" onchange="getObjectType2(this)" >
-					<option></option>
-					<option>轨道目标类</option>
-					<option>导弹类</option>
-					<option>飞机类</option>
-					<option>地面装备类</option>
-					<option>水平目标类</option>
-					<option>其他类</option>
-				</select>
-			</div>
-			<a style="color:red;display:none">✖</a><br>
-			所属国家：
-			<select id="ObjectBelong" >
-				<option></option>
-				<option>我军</option>
-				<option>外军</option>
-			</select><a style="color:red;display:none">✖</a><br>
-		<button class="blue" onclick="insertNewUserRecord()">确认添加</button>
+			</form> <a style="color:red;display:none">✖</a><br>  
+		   模型名称：<input type="text"  id="ObjectName" readOnly="true" style="width:250px"><a style="color:red;display:none">✖</a><br>
+		     适用软件：
+			<div> 
+				<div id="SelectedSoft"></div>
+				<div id="AllSoft">
+				</div>
+			</div><a style="color:red;display:none">✖</a><br>
+		   <input type="text" id="modelDes"  style="width:250px"  value="简介"/><a style="color:red;display:none">✖</a><br>
+		<button class="blue" onclick="upmodelfile()">确认上传</button>
 		</div>
 	</section>
 </div>
@@ -254,6 +245,7 @@ $('.cycle').cycle({
     prev:    '.left-btn', 
     next:    '.right-btn'
 });
+loadAllSoft(); // 仿照fileUpload,加载所有可选的软件信息
 function callback(msg,picPath)   
 {   
 	if(picPath){

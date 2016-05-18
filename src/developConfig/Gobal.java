@@ -38,8 +38,11 @@ public interface Gobal {
 	String NODE_SNMP_PROCESS_END="1.3.6.1.2.1.25.5.1.1.3";
 	
 	//所有模型文件存放路径
-	String OBJECT_ROOT_DIR="D:\\WaterSound\\ObjectModelfile\\watersound22.stl";
+	String OBJECT_ROOT_DIR="D:\\WaterSound\\ObjectModelfile\\";
 	//所有图片存放路径
 	String PICTURE_ROOT_DIR="D:\\WaterSound\\Pictures";
+	
+	//节点机统一存储模型文件的位置 
+	String NODE_OBJECT_DIR = "D:\\WaterSound\\";
 	
 }

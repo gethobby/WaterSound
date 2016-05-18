@@ -41,11 +41,11 @@
 	<ul id="navBar">
 		<li>
 			<a href="ModelMain.jsp" class="models" title="Models"><span class="icon">&#59214;</span> 数据管理</a>
-			<ul class="submenu">
+			<!-- <ul class="submenu">
 				<li><a href="ModelMain.jsp">几何模型库</a></li>
 				<li><a href="ModelMain.jsp">Benchmark库</a></li>
 				<li class="last"><a href="ModelMain.jsp">仿真结果库</a></li>
-			</ul>
+			</ul> -->
 		</li>
 		<li><a href="ComputeMain.jsp" class="computes" title="Computes"><span class="icon">&#59214;</span> 模型计算</a></li>
 		<li class="section"><a href="ResultMain.jsp" class="results" title="Results"><span class="icon">&#59214;</span> 结果验证</a></li>

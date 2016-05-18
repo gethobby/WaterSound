@@ -206,7 +206,7 @@ function checkInput()
 /*
  * 添加新目标
  * */
-function insertNewUserRecord()
+function insertNewObjectRecord()
 {
 	var jsonObject={
 			"ObjectName":"",
@@ -337,4 +337,61 @@ function createModelTR(ModelID, FileName,SortPath,MatchSotf)
 	return tr;
 	
 }
+
+
+	 
+function filledModelName() {
+	 var file = document.getElementById("file");
+	var fileName = document.getElementById("ObjectName");
+	//alert(file.value)
+	var url=file.value;
+	url=url.split("\\");//这里要将 \ 转义一下
+	fileName.value = url[url.length-1];
+	//alert("文件名 "+url[url.length-1]);
+}
+
+//(上传)添加新的模型
+function upmodelfile()
+{
+	var obj = document.getElementById("DB_NO"); //定位id
+	var index = obj.selectedIndex; // 选中索引
+	var nodeIP = obj.options[index].value; // 选中值
+	if (nodeIP!=null) {
+		
+		//适用软件 暂时以字符串形式存放，各软件名称以英文逗号隔开
+	 	var jsonObject=new Object();
+	   jsonObject.nodeIP=nodeIP;
+	   jsonObject.modelName=document.getElementById("ObjectName").value;
+	 
+		jsonObject["ObjectiveSoftNames[]"]=[];
+		var softs=$('#AllSoft div input').toArray();
+		for(i=0;i<softs.length-1;i+=2)
+		{
+			if(softs[i].checked==true){
+				jsonObject["ObjectiveSoftNames[]"].push(softs[i].value);
+				//alert(softs[i].value);
+			}
+		}
+		  jsonObject.modelDes=document.getElementById("modelDes").value;
+		  
+		$.ajax({
+		     type: "POST",   
+		     url: "/WaterSound/CreateNewRecord?type=modelfile",   
+		     data:jsonObject,
+		     success:function(str_response){
+		    	 var param=str_response.split(",");
+		    	 if("success"==param[0])
+		    	 {
+		    		 alert("上传成功！");
+		    	 }
+		    	 else{
+		    		alert("上传失败！模型已存在或其他错误");
+		    	 }
+		     }
+		});
+	}
+	 	
+}
+
+
 

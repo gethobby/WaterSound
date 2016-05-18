@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.DoLoginCheck;
-import model.mySQLConnector;
+import model.Util;
+
 
 /**
  * Servlet implementation class downloadModelFile
@@ -45,7 +45,7 @@ public class downloadModelFile extends HttpServlet {
 		if (modelName!=""&&!modelName.equals("")) {		
 			
 			System.out.println("服务器下载模型文件："+modelName);
-			if(new mySQLConnector().ReceiveModelFile("1","223.3.79.4", 6000,  modelName, "shanshan3344555","D:\\WaterSound\\ModelCallBack\\","Result.xml"))
+			if(Util.ReceiveModelFile("1","223.3.79.4", 6000,  modelName, "shanshan3344555","D:\\WaterSound\\ModelCallBack\\","Result.xml"))
 			{
 				System.out.println("download model file success");
 				response.getWriter().append("success");

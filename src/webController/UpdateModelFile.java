@@ -44,15 +44,8 @@ public class UpdateModelFile extends HttpServlet {
 			int fileID=Integer.parseInt(request.getParameter("id"));
 			UploadFile modelfile=new UploadFile();
 			modelfile.setFileDescription(request.getParameter("FileDescription"));
-			modelfile.setFileSecretLevel(request.getParameter("FileSecretLevel"));
 			modelfile.setObjectiveSoft(request.getParameter("FileSelectedSoft"));
-			modelfile.setFileSource(request.getParameter("FileSource"));
-			modelfile.setContactPerson(request.getParameter("ContactPerson"));
-			modelfile.setContactComp(request.getParameter("ContactComp"));
-			modelfile.setContactAddress(request.getParameter("ContactAddress"));
-			modelfile.setContactZip(request.getParameter("ContactZip"));
-			modelfile.setContactTel(request.getParameter("ContactTel"));
-			modelfile.setContactEmail(request.getParameter("ContactEmail"));
+			
 			if(modelfile.UpdateModelfileInfo(fileID)) response.getWriter().append("success");
 			else response.getWriter().append("failed");
 		}
