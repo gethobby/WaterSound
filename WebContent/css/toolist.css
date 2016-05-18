@@ -1,0 +1,41 @@
+.listitem
+{
+background: none repeat scroll 0% 0% #F7F7F7;
+border: 1px solid #E3E3E3;
+float: left;
+padding: 10px 10px;
+margin: 0px 0px 25px;
+border-radius: 5px;
+box-sizing: border-box;
+overflow-y:hidden;
+height:165px;
+overflow:hidden
+}
+.tip{
+  display:none;
+  position: absolute;
+  left: 30px;
+  top: 20px;
+}
+.listsoft{
+	width:50px;
+	height:50px;
+	margin-right:20px;
+	background-size:100% 100%;
+}
+
+#notify{
+	width:400px;
+	height:150px;
+	min-height:50px;
+	display:none
+}
+.listsoftinfo li{
+	display:inline;
+	border-left:1px solid;
+	margin-left:20px;
+	font-size:18px;
+}
+.selectsection{
+	font-weight: bold;
+}

@@ -1,0 +1,45 @@
+// 处理用户、软件、模型、目标文件通过ID删除记录
+
+
+1.UserManage.jsp 删除按钮添加id = "deleteBnt";
+2.UserManage.js  添加deleteBnt的注册事件和deleteOldUserRecord；
+3.新建Servlet DeleteOldRecord处理ajax删除请求.模式仿照CreateNewRecord来;
+4.新建Class DoDeleteByID,统一辅助DeleteRecord处理删除各表的记录通过ID.模式仿照GridfileList来。
+
+
+5.SoftManage.jsp 删除按钮添加 id = “deleteBnt”;  
+6.为了统一，新建SoftManage.js文件， 添加deleteBnt的注册事件和deleteOldSoftRecord；
+7.在SoftManage.jsp 页面中，引入<script src="../js/SoftManage.js"></script>,以便在引入的js文件中，
+    定义删除软件函数。
+8.在Class DoDeleteByID,仿照删除用户删除软件记录编写函数。
+
+9.似乎ApplyNodeServlet请求参数ModelID出错，修改为modelID（请求来源于Rdp.js/applynode()）
+  修改如下：if(request.getParameter("modelID")!=null&&!request.getParameter("modelID").equals("null"))
+  
+  
+ ///  水声数据项目修改
+ 
+1. ModelList.jsp 中，不再有目标显示，直接显示模型列表，并加入下载操作，目前，为了简便，不改变数据表的前提下，
+      修改GirdfileList.java中String checkedFileSql = "select ObjectID,目标名称,一级类别,二级类别 ,所属国家 "
+			+ "from geomodel.objectinfo,geomodel.ObjectType_view "
+			+ "where 目标分类=geomodel.ObjectType_view.ID";为
+			String checkedFileSql="select ObjectID,模型名称,storepath,使用软件 ,所属国家 "
+			+ "from geomodel.objectinfo,geomodel.ObjectType_view "
+			+ "where 目标分类=geomodel.ObjectType_view.ID";并在页面ModelList.jsp中，按序号显示.
+			后期，要删掉目标以及相关的数据表，
+2.修改ModelList.jsp中 <c:forEach items="${Modellist}" var="item" varStatus="status">
+					<tr onclick="showModelFiles(this)">。。。
+				  为：<c:forEach items="${Modellist}" var="item" varStatus="status">
+					<tr ">点击行，不显示之前的目标含有的模型文件
+3.修改ModelList,jsp中 	<td><a href="#" onclick="ModifyObjectinfo(${item[0]})">${item[1]}</a></td>
+                                      为：<td><a href="#" onclick="ModifyModelFileinfo(${item[0]})">${item[1]}</a></td>	
+                                      
+4.ModelList.jsp中表格显示，增加<input name="model" type="radio" style="width: 20px" >，单选框，便于选中建模       
+5.ModelList.js中，增加downloadModelFile函数，用于处理，下载节点机上的模型文件，改<td><span onclick="addModelFile(${item[0]},'${item[1]}')"><a href="#" >下载</a></span></td>
+               为<td><span onclick="downloadModelFile(${item[1]})"><a href="#" >下载</a></span></td>    
+               
+6.为了处理下载模型文件，添加servlet downloadModelFile，处理下载.
+7.引入存储节点选择selection,实现ModelList，点击加载前，不显示模型文件:
+                                          			
+  
+ 
