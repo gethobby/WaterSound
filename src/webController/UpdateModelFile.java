@@ -39,15 +39,19 @@ public class UpdateModelFile extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
+		String nodeIP =request.getParameter("nodeIP");
 		
 		if(request.getParameter("id")!=null){
-			int fileID=Integer.parseInt(request.getParameter("id"));
+			if (nodeIP!=null&&!nodeIP.equals("")) {
+				int fileID=Integer.parseInt(request.getParameter("id"));
 			UploadFile modelfile=new UploadFile();
 			modelfile.setFileDescription(request.getParameter("FileDescription"));
 			modelfile.setObjectiveSoft(request.getParameter("FileSelectedSoft"));
 			
-			if(modelfile.UpdateModelfileInfo(fileID)) response.getWriter().append("success");
+			if(modelfile.UpdateModelfileInfo(fileID,nodeIP)) response.getWriter().append("success");
 			else response.getWriter().append("failed");
+			}
+			
 		}
 	}
 

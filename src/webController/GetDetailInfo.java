@@ -78,8 +78,9 @@ public class GetDetailInfo extends HttpServlet {
 			if(request.getParameter("id")!=null&&!request.getParameter("id").equals(""))
 			{
 				int fileid=Integer.parseInt(request.getParameter("id"));
-				mySQLConnector con=new mySQLConnector();
-				con.readyPreparedStatement("select * from geomodel.fileinfo,geomodel.objectinfo where fileID=? and 目标=ObjectID");
+				String nodeIP=request.getParameter("nodeIP");
+				mySQLConnector con=new mySQLConnector(nodeIP);
+				con.readyPreparedStatement("select * from modelinfo.fileinfo where fileID=? ");
 				con.setInt(1, fileid);
 				try {
 					jsonArray=ResultSetConverter.convert(con.executeQuery());

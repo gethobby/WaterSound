@@ -3,7 +3,6 @@ package webController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import model.GirdfileList;
+
 import model.ResultSetConverter;
-import model.SavedNodeSQLConnector;
 import model.mySQLConnector;
 
 /**
@@ -50,7 +48,7 @@ public class GetModellist extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 			String nodeIP =request.getParameter("nodeIP"); 
-			SavedNodeSQLConnector con=new SavedNodeSQLConnector(nodeIP);
+			mySQLConnector con=new mySQLConnector(nodeIP);
 			String filesummaryinfoSql="select fileID,模型文件,storepath,适用软件  "
 					+ "from modelinfo.fileinfo ";;
 			con.readyPreparedStatement(filesummaryinfoSql);

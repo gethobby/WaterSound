@@ -42,12 +42,12 @@
 <nav>
 	<ul id="navBar">
 		<li class="section">
-			<a href="ModelMain.jsp" class="models" title="Models"><span class="icon">&#59214;</span> 数据管理</a>
-			<ul class="submenu" style="display:block">
+			<a href="ModelList.jsp" class="models" title="Models"><span class="icon">&#59214;</span> 数据管理</a>
+		<!--  	<ul class="submenu" style="display:block">
 				<li><a href="ModelList.jsp">几何模型库</a></li>
 				<li><a href="ModelMain.jsp">Benchmark库</a></li>
 				<li class="last"><a href="ModelMain.jsp">仿真结果库</a></li>
-			</ul>
+			</ul> -->
 		</li>
 		<li><a href="ComputeMain.jsp" class="computes" title="Computes"><span class="icon">&#59214;</span> 模型计算</a></li>
 		<li><a href="ResultMain.jsp" class="results" title="Results"><span class="icon">&#59214;</span> 结果验证</a></li>
@@ -71,56 +71,17 @@
 			</div>
 			<table id="Fileinfo" style="margin-top:20px">
 				<tr style="height:30px">
-					<td align="right" style="width:100px;"><label style="margin-right:20px">目标名称：</label></td>
-					<td>
-					<label id="TargetObject"></label>
-					<input id="TargetObjectID" type="hidden">
-					</td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">模型文件：</label></td>
+					<td align="right"><label style="margin-right:20px">模型名称：</label></td>
 					<td><label id="FileName"></label><input type="hidden" id="FileStorePath"></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">简介：</label></td>
-					<td><div id="FileDescription"></div></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">密级：</label></td>
-					<td><label id="FileSecretLevel"></label></td>
-				</tr>
+				</tr>						
 				<tr style="height:30px">
 					<td align="right"><label style="margin-right:20px">适用软件：</label></td>
 					<td><div id="FileSelectedSoft"></div></td>
 				</tr>
 				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">来源：</label></td>
-					<td><label id="FileSource"></label></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">联系人：</label></td>
-					<td><label id="ContactPerson"></label></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">单位名称：</label></td>
-					<td><label id="ContactComp"></label></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">通信地址：</label></td>
-					<td><label id="ContactAddress"></label></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">邮政编码：</label></td>
-					<td><label id="ContactZip"></label></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">电话：</label></td>
-					<td><label id="ContactTel"></label></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">电子邮件：</label></td>
-					<td><label id="ContactEmail"></label></td>
-				</tr>				
+					<td align="right"><label style="margin-right:20px">简介：</label></td>
+					<td><div id="FileDescription"></div></td>
+				</tr>			
 				<tr style="height:30px">
 					<td align="right" ></td>
 					<td><button class="green" onclick="showModelFileinfo_M()" value="修改">修改</button></td>
@@ -128,33 +89,11 @@
 			</table>
 			<table id="Fileinfo_Modify" style="display:none;margin-top:20px">
 				<tr style="height:30px">
-					<td align="right"  style="width:100px;"><label style="margin-right:20px">目标名称：</label></td>
-					<td>
-					<label id="TargetObject_Modify"></label>
-					</td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">模型文件：</label></td>
+					<td align="right" style="width:100px"><label style="margin-right:20px">模型文件：</label></td>
 					<td><label id="FileName_Modify"></label></td>
-				</tr>
+				</tr>				
 				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">简介：</label></td>
-					<td><textarea id="FileDescription_Modify"></textarea></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">密级：</label></td>
-					<td>
-						<select id="FileSecretLevel_Modify">
-							<option>绝密</option>
-							<option>机密</option>
-							<option>秘密</option>
-							<option>内部</option>
-							<option>公开</option>
-						</select>
-					</td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">适用软件：</label></td>
+					<td align="right" style="width:100px"><label style="margin-right:20px">适用软件：</label></td>
 					<td>
 						<div id="AllSoft">
 						</div>
@@ -162,44 +101,13 @@
 					</td>
 				</tr>
 				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">来源：</label></td>
+					<td align="right" style="width:100px"><label style="margin-right:20px">简介：</label></td>
+					<td><textarea id="FileDescription_Modify"></textarea></td>
+				</tr>
+				<tr style="height:30px">
+					<td align="right" style="width:100px"></td>
 					<td>
-						<select id="FileSource_Modify">
-							<option>采购</option>
-							<option>自主开发</option>
-							<option>情报</option>
-							<option>其他</option>
-						</select>
-					</td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">联系人：</label></td>
-					<td><input id="ContactPerson_Modify"></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">单位名称：</label></td>
-					<td><input id="ContactComp_Modify"></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">通信地址：</label></td>
-					<td><input id="ContactAddress_Modify"></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">邮政编码：</label></td>
-					<td><input id="ContactZip_Modify"></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">电话：</label></td>
-					<td><input id="ContactTel_Modify"></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right"><label style="margin-right:20px">电子邮件：</label></td>
-					<td><input id="ContactEmail_Modify"></td>
-				</tr>
-				<tr style="height:30px">
-					<td align="right" ></td>
-					<td>
-						<button class="green" onclick="modifyModelFileinfo()" value="保存">保存</button>
+						<button class="green" onclick="modifyModelFileinfo('<%=request.getParameter("nodeIP")%>')" value="保存">保存</button>
 						<button class="orange" onclick="cancelModelFileinfo_M()" value="取消">取消</button>
 					</td>
 				</tr>
@@ -240,7 +148,7 @@ $(document).ready(function(){
 		document.getElemntById("selectall").css.display="inline";
 	
 });
-loadModelfileInfo('<%=request.getParameter("fileID")%>');
+loadModelfileInfo('<%=request.getParameter("fileID")%>','<%=request.getParameter("nodeIP")%>');
 </script>
 </body>
 </html>

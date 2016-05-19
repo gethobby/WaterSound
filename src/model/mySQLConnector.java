@@ -17,8 +17,6 @@ import developConfig.Gobal;
 public class mySQLConnector {
 		
 		/*以下是定义一些字段*/
-		//private String url = "jdbc:mysql://localhost:3306/model3d?user=root&password=blue";	//数据库URL
-		private static String className = "com.mysql.jdbc.Driver";	//数据库驱动类路径
 		private Connection conn = null;	//声明一个Connection对象
 		private Statement stmt = null;	//声明一个Statement对象
 		private PreparedStatement pstmt = null;	//声明一个PreparedStatement对象
@@ -30,7 +28,7 @@ public class mySQLConnector {
 				Class.forName("com.mysql.jdbc.Driver");
 				//System.out.println("driver load success");
 				//建立连接，连接到由属性url指定的数据库URL，并指定登录数据库的用户名和密码
-				conn = DriverManager.getConnection(Gobal.QUERY_DB_URL,Gobal.QUERY_DB_USER,Gobal.QUERY_DB_PASSWORD);
+				conn = DriverManager.getConnection(Gobal.DEFUALT_QUERY_DB_URL,Gobal.QUERY_DB_USER,Gobal.QUERY_DB_PASSWORD);
 				//System.out.println("connect success");
 				//在初始化方法里面首先获取Statement对象
 				stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY );
@@ -45,7 +43,30 @@ public class mySQLConnector {
 			init();
 		}
 
-		/*********************************以下方法是针对Statement的****************************************/
+		
+		
+		/*初始化一些东西：加载数据库驱动，并建立连接*/
+		public void init(String nodeIP){
+			try {
+				//加载数据库驱动
+				Class.forName("com.mysql.jdbc.Driver");
+				//System.out.println("driver load success");
+				//建立连接，连接到由属性url指定的数据库URL，并指定登录数据库的用户名和密码
+				conn = DriverManager.getConnection(Gobal.QUERY_DB_PREFIX+nodeIP+Gobal.QUERY_DB_PORT,Gobal.QUERY_DB_USER,Gobal.QUERY_DB_PASSWORD);
+				//System.out.println("connect success");
+				//在初始化方法里面首先获取Statement对象
+				stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY );
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("初始化方法init()出现错误，加载数据库驱动失败 或者 建立连接失败！！");
+			}
+		}
+		
+		/*构造方法*/
+		public mySQLConnector(String nodeIP){
+			init(nodeIP);
+		}
+		/********************************my*以下方法是针对Statement的****************************************/
 		
 		/*查询数据库，返回结果集ResultSet*/
 		public ResultSet executeQuery(String sql){

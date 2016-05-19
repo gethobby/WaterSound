@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.GeoModel;
-import model.UploadFile;
 
 /**
  * Servlet implementation class UpdateObject

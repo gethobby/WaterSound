@@ -40,11 +40,10 @@ public class GetSavedNodeList extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	    request.setCharacterEncoding("utf-8");
-		String s = request.getParameter("type");
 	    
 		if(request.getParameter("type").equals("SavedNodeDB")){
 			GirdfileList gf = new GirdfileList();
-			List list = gf.getSavedNodeDBList();
+			List<String[]> list = gf.getSavedNodeDBList();
 			if (list != null) {
 				// System.out.println(list);
 				request.setAttribute("SavedNodeDBList", list);

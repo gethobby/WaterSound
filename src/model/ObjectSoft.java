@@ -1,13 +1,11 @@
 ﻿package model;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.omg.CORBA.portable.InputStream;
 
 public class ObjectSoft {
 	int SoftID;//软件编号

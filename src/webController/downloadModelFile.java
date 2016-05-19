@@ -6,21 +6,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import developConfig.Gobal;
 import model.Util;
 
 
 /**
  * Servlet implementation class downloadModelFile
  */
-@WebServlet("/downloadModelFile")
-public class downloadModelFile extends HttpServlet {
+@WebServlet("/DownloadModelFile")
+public class DownloadModelFile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public downloadModelFile() {
+    public DownloadModelFile() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,11 +43,15 @@ public class downloadModelFile extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String modelName=request.getParameter("modelName");
+		String nodeIP=request.getParameter("nodeIP");
+		HttpSession session=request.getSession();
+		String username = (String) session.getAttribute("username");
+		String name = (username==null||username.equals(""))? "server":username;
 		
 		if (modelName!=""&&!modelName.equals("")) {		
 			
 			System.out.println("服务器下载模型文件："+modelName);
-			if(Util.ReceiveModelFile("1","223.3.79.4", 6000,  modelName, "shanshan3344555","D:\\WaterSound\\ModelCallBack\\","Result.xml"))
+			if(Util.ReceiveModelFile("1",nodeIP, Gobal.NODE_SOCKET_PORT,  modelName, name,Gobal.SERVER_RECV_CALLBACK,Gobal.SERVER_RECV_XML))
 			{
 				System.out.println("download model file success");
 				response.getWriter().append("success");

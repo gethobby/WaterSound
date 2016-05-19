@@ -75,7 +75,7 @@ public class GetSoftList extends HttpServlet {
 		else{
 			
 			GirdfileList gf = new GirdfileList();
-			List list = gf.getSoftList();
+			List<String[]> list = gf.getSoftList();
 			if (list != null) {
 				// System.out.println(list);
 				request.setAttribute("softlist", list);

@@ -1,11 +1,9 @@
 ﻿package model;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
 
 
 public class GeoModel {//目标的实体类

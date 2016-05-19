@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import model.ObjectSoft;
 import model.mySQLConnector;
 
 /**

@@ -74,7 +74,7 @@ public class UploadFile {//模型文件的实体类
 	public boolean checkInsert(String nodeIP)
 	{
 		boolean flag=true;
-		SavedNodeSQLConnector con=new SavedNodeSQLConnector(nodeIP);
+		mySQLConnector con=new mySQLConnector(nodeIP);
 		String selectSql="select * from modelinfo.fileinfo where 模型文件=? ";
 		con.readyPreparedStatement(selectSql);
 		con.setString(1, this.FileName);
@@ -94,7 +94,7 @@ public class UploadFile {//模型文件的实体类
 	public boolean recordInsert(String nodeIP)
 	{
 		boolean flag=true;
-		SavedNodeSQLConnector con=new SavedNodeSQLConnector(nodeIP);
+		mySQLConnector con=new mySQLConnector(nodeIP);
 		String insertSql="insert into modelinfo.fileinfo(模型文件,storepath,适用软件,简介) "
 				+ "values(?,?,?,?) ";
 		con.readyPreparedStatement(insertSql);
@@ -120,11 +120,11 @@ public class UploadFile {//模型文件的实体类
 		return flag;
 	}
 	
-	public boolean UpdateModelfileInfo(int fileID)
+	public boolean UpdateModelfileInfo(int fileID,String nodeIP)
 	{
 		if(fileID<=0) return false;
 		boolean flag=true;
-		mySQLConnector con=new mySQLConnector();
+		mySQLConnector con=new mySQLConnector(nodeIP);
 		String updateModelfileinfoSql="update modelinfo.fileinfo "
 				+ "set 适用软件=?,简介=? "
 				+ "where fileID=?";

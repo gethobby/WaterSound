@@ -136,11 +136,11 @@ public class Util {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("上传文件");
-		Util.SendModelFile("0","223.3.79.4", 6000,  Gobal.OBJECT_ROOT_DIR+"watersoundzhangfeng.stl", "zhang");
+		Util.SendModelFile("0","223.3.79.4", Gobal.NODE_SOCKET_PORT,  Gobal.OBJECT_ROOT_DIR+"watersoundzhangfeng.stl", "zhang");
 		System.out.println("上传成功");
 	   /* System.out.println("下载文件");
 	    // 端口号后面的模型文件，只需要文件名即可，因为节点机上的工作空间统一了
-		Util.ReceiveModelFile("1","223.3.79.4", 6000,  "watersound22.stl", "shanshan3344555","D:\\WaterSound\\ModelCallBack\\","Result.xml");
+		Util.ReceiveModelFile("1","223.3.79.4", Gobal.NODE_SOCKET_PORT,  "watersound22.stl", "shanshan3344555","D:\\WaterSound\\ModelCallBack\\","Result.xml");
 		System.out.println("下载成功");*/
 	}
 

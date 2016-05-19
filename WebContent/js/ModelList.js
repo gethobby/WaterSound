@@ -10,7 +10,10 @@ function addModelFile(TargetId,TargetName)
  * */
 function ModifyModelFileinfo(fileID)
 {
-	var objpage=window.open("ModelFileinfoModify.jsp?fileID="+fileID);
+	var obj = document.getElementById("DB_NO"); //定位id
+	var index = obj.selectedIndex; // 选中索引
+	var nodeIP = obj.options[index].value; // 选中值
+	var objpage=window.open("ModelFileinfoModify.jsp?fileID="+fileID+"&nodeIP="+nodeIP);
 }
 /*
  * 打开相应目标的修改信息页面
@@ -252,12 +255,16 @@ function newObjectinfo()
  */
 function downloadModelFile(modelName) {
 	
+	var obj = document.getElementById("DB_NO"); //定位id
+	var index = obj.selectedIndex; // 选中索引
+	var nodeIP = obj.options[index].value; // 选中值
+	
 	alert(modelName);
 	if(modelName!=null){
 		
 		$.ajax({   
 		     type: "POST",   
-		     url: "/WaterSound/downloadModelFile?modelName="+modelName,   
+		     url: "/WaterSound/DownloadModelFile?modelName="+modelName+"&nodeIP="+nodeIP,   
 		     //traditional: true,
 		     success:function(str_response){
 		    	 if("success"==str_response)
@@ -309,7 +316,7 @@ function createModelTR(ModelID, FileName,SortPath,MatchSotf)
 {
 	 
 	var tdcol1template='<input name="model" type="radio" style="width: 20px" ><strong>NO.</strong>{{%modelID}}';
-	var tdcol2template='<a href="#" onclick="ModifyModelFileinfo(\'{{%filename}}\')">{{%filename}}</a>' ;
+	var tdcol2template='<a href="#" onclick="ModifyModelFileinfo(\'{{%modelID}}\')">{{%filename}}</a>' ;
 	var tdcol3template='{{%filepath}}';
 	var tdcol4template='{{%filesoft}}';
 	var tdcol5template='<a href="#" onclick="downloadModelFile(\'{{%filename}}\')">下载</a>';
@@ -323,7 +330,7 @@ function createModelTR(ModelID, FileName,SortPath,MatchSotf)
 	var td5=document.createElement('td');
 	
 	td1.innerHTML=new t(tdcol1template).render({modelID:ModelID});
-	td2.innerHTML=new t(tdcol2template).render({filename:FileName});
+	td2.innerHTML=new t(tdcol2template).render({modelID:ModelID,filename:FileName});
 	td3.innerHTML=new t(tdcol3template).render({filepath:SortPath});
 	td4.innerHTML=new t(tdcol4template).render({filesoft:MatchSotf});
 	td5.innerHTML=new t(tdcol5template).render({filename:FileName});

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class GirdfileList {
 
 	String checkedFileSql="select fileID,模型文件,storepath,适用软件  "
-			+ "from geomodel.fileinfo ";
+			+ "from modelinfo.fileinfo ";
 	String SavedNodeDBSql="select nodeID,IPAddress  "
 			+ "from savednode.nodeinfo ";
 //	String unCheckedFileSql="select ID,filename from gridfile where verified=0;";
@@ -57,7 +57,7 @@ public class GirdfileList {
 		arrayList1 = new ArrayList<String>();
 		arrayList2 = new ArrayList<String[]>();
 		ArrayList<String[]> list = null;
-		SavedNodeSQLConnector con=new SavedNodeSQLConnector(nodeIP);
+		mySQLConnector con=new mySQLConnector(nodeIP);
 		ResultSet rs=con.executeQuery(checkedFileSql);
 		try
 		{		

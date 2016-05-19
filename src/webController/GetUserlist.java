@@ -41,7 +41,7 @@ public class GetUserlist extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		GirdfileList gf = new GirdfileList();
-		List list = gf.getUserList();
+		List<String[]> list = gf.getUserList();
 		if (list != null) {
 			// System.out.println(list);
 			request.setAttribute("userlist", list);
