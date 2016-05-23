@@ -52,7 +52,7 @@ public class NodeStatus extends HttpServlet {
 		{//获取节点机器信息列表
 			mySQLConnector con=new mySQLConnector();
 			String sql="select nodeID,IPAddress,status,maxcount,sum(occupied) as usecount "
-					+ "from objectmodelingsoft.nodeinfo,objectmodelingsoft.availableresource "
+					+ "from softnode.nodeinfo,softnode.availableresource "
 					+ "where nodeID=FK_node group by nodeID";
 			
 			JSONArray jsonArray=new JSONArray();
@@ -77,7 +77,7 @@ public class NodeStatus extends HttpServlet {
 		else{
 			int id=Integer.parseInt(request.getParameter("nodeid"));
 			mySQLConnector con=new mySQLConnector();
-			String sql="select IPAddress from objectmodelingsoft.nodeinfo where nodeID=?";
+			String sql="select IPAddress from softnode.nodeinfo where nodeID=?";
 			con.readyPreparedStatement(sql);
 			con.setInt(1, id);
 			ResultSet rs=con.executeQuery();

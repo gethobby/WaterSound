@@ -18,8 +18,8 @@ public class GirdfileList {
 //	String RecentModelFileSql="SELECT ID,filename FROM gridfile limit 0,3; ";
 //	String ProjectSql="SELECT computetaskId,taskname,time,status,solver FROM computetask; ";
 //	String NodemachineSql="SELECT * from nodeMachine";
-	String UserlistSql="select userID,username,role,status from platformuser.account;";
-	String SoftlistSql="select * from objectmodelingsoft.softinfo";
+	String UserlistSql="select userID,username,role,status from usermanager.account;";
+	String SoftlistSql="select * from softnode.softinfo";
 	ArrayList<String> arrayList1;
 	ArrayList<String[]> arrayList2;
 	

@@ -49,7 +49,7 @@ public class UpdateNodeinfo extends HttpServlet {
 				{
 					int accountID=Integer.parseInt(request.getParameter("AccountID"));
 					mySQLConnector con=new mySQLConnector();
-					String updateresourceSql="update objectmodelingsoft.availableresource "
+					String updateresourceSql="update softnode.availableresource "
 							+ "set account=?,password=?,port=?,softname=? where ID=?";
 					con.readyPreparedStatement(updateresourceSql);
 					con.setString(1, request.getParameter("AccountName"));
@@ -67,7 +67,7 @@ public class UpdateNodeinfo extends HttpServlet {
 				}
 				else{
 					mySQLConnector con=new mySQLConnector();
-					String insertnewresourceSql="insert into objectmodelingsoft.availableresource"
+					String insertnewresourceSql="insert into softnode.availableresource"
 							+ "(FK_node,account,password,port,softname) values(?,?,?,?,?)";
 					con.readyPreparedStatement(insertnewresourceSql);
 					con.setInt(1, nodeID);

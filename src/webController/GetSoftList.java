@@ -51,7 +51,7 @@ public class GetSoftList extends HttpServlet {
 		String param=request.getParameter("softinfotype");
 		if(param!=null&&param.equals("summary")){
 			mySQLConnector con=new mySQLConnector();
-			String getSummarySoftinfoSql="select softID,softname from objectmodelingsoft.softinfo";
+			String getSummarySoftinfoSql="select softID,softname from softnode.softinfo";
 			con.readyPreparedStatement(getSummarySoftinfoSql);
 			JSONArray jsonArray=new JSONArray();
 			try {

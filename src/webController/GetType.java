@@ -51,7 +51,7 @@ public class GetType extends HttpServlet {
 		{
 			JSONArray jsonArray=null;
 			mySQLConnector con=new mySQLConnector();
-			String getObjectType2Sql="select 二级类别 as ObjectType2 from geomodel.objecttype_view where 一级类别=?";
+			String getObjectType2Sql="select 二级类别 as ObjectType2 from softnode.objecttype_view where 一级类别=?";
 			con.readyPreparedStatement(getObjectType2Sql);
 			con.setString(1, ObjectType1);
 			try {

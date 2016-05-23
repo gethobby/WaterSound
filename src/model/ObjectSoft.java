@@ -179,7 +179,7 @@ public class ObjectSoft {
 	{
 		boolean flag=false;
 		mySQLConnector con=new mySQLConnector();
-		String insertNewsoftSql="insert into objectmodelingsoft.softinfo"
+		String insertNewsoftSql="insert into softnode.softinfo"
 				+ "(softname,英文名称,版本,发布更新时间,LOGO,一级类型,二级类型,密级,简介,软件功能,典型算例,应用效果,联系人,单位名称,通信地址,邮政编码,电话,电子邮件) "
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		con.readyPreparedStatement(insertNewsoftSql);
@@ -229,7 +229,7 @@ public class ObjectSoft {
 			 else
 				 querystring+=(filetype[i]+"%' or acceptmodeltype like ");
 		} 
-		ResultSet rs= con.executeQuery("select softID,softname,type from objectmodelingsoft.softinfo where acceptmodeltype like"+querystring);
+		ResultSet rs= con.executeQuery("select softID,softname,type from softnode.softinfo where acceptmodeltype like"+querystring);
 		try
 		{		
 			while(rs.next()){
@@ -271,7 +271,7 @@ public class ObjectSoft {
 	public void InsertSoftuselog(String soft,String user,Date starttime)
 	{
 		mySQLConnector con=new mySQLConnector();
-		String softuseinsert="insert into platformuser.softuse( username,FK_soft,starttime,endtime) values(?,?,?,?);";
+		String softuseinsert="insert into usermanager.softuse( username,FK_soft,starttime,endtime) values(?,?,?,?);";
 		con.readyPreparedStatement(softuseinsert);
 		con.setString(1, user);
 		con.setString(2, soft);
@@ -291,7 +291,7 @@ public class ObjectSoft {
 		boolean flag=true;
 		if(softID<=0) return false;
 		mySQLConnector con= new mySQLConnector();
-		String updatesoftbasicinfoSql="update objectmodelingsoft.softinfo "
+		String updatesoftbasicinfoSql="update softnode.softinfo "
 				+ "set 英文名称=?,版本=?,发布更新时间=?,LOGO=?,一级类型=?,二级类型=?,密级=?,简介=? where softID=? ;";
 		con.readyPreparedStatement(updatesoftbasicinfoSql);
 		con.setString(1, this.SoftNameEN);
@@ -312,7 +312,7 @@ public class ObjectSoft {
 		boolean flag=true;
 		if(softID<=0) return false;
 		mySQLConnector con= new mySQLConnector();
-		String updatesoftfuncdescSql="update objectmodelingsoft.softinfo set 软件功能=? where softID=? ;";
+		String updatesoftfuncdescSql="update softnode.softinfo set 软件功能=? where softID=? ;";
 		con.readyPreparedStatement(updatesoftfuncdescSql);
 		con.setString(1, this.SoftFunctionDesc);
 		con.setInt(2,softID);
@@ -325,7 +325,7 @@ public class ObjectSoft {
 		boolean flag=true;
 		if(softID<=0) return false;
 		mySQLConnector con= new mySQLConnector();
-		String updatesoftcomputeexampleSql="update objectmodelingsoft.softinfo set 典型算例=? where softID=? ;";
+		String updatesoftcomputeexampleSql="update softnode.softinfo set 典型算例=? where softID=? ;";
 		con.readyPreparedStatement(updatesoftcomputeexampleSql);
 		con.setString(1, this.SoftComputeExample);
 		con.setInt(2,softID);
@@ -338,7 +338,7 @@ public class ObjectSoft {
 		boolean flag=true;
 		if(softID<=0) return false;
 		mySQLConnector con= new mySQLConnector();
-		String updatesoftresultexampleSql="update objectmodelingsoft.softinfo set 应用效果=? where softID=? ;";
+		String updatesoftresultexampleSql="update softnode.softinfo set 应用效果=? where softID=? ;";
 		con.readyPreparedStatement(updatesoftresultexampleSql);
 		con.setString(1, this.SoftResultExample);
 		con.setInt(2,softID);
@@ -351,7 +351,7 @@ public class ObjectSoft {
 		boolean flag=true;
 		if(softID<=0) return false;
 		mySQLConnector con= new mySQLConnector();
-		String updatesoftbasicinfoSql="update objectmodelingsoft.softinfo "
+		String updatesoftbasicinfoSql="update softnode.softinfo "
 				+ "set 联系人=?,单位名称=?,通信地址=?,邮政编码=?,电话=?,电子邮件=? where softID=? ;";
 		con.readyPreparedStatement(updatesoftbasicinfoSql);
 		con.setString(1, this.ContactPerson);

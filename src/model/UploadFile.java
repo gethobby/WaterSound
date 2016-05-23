@@ -52,7 +52,7 @@ public class UploadFile {//模型文件的实体类
 		if(fileID<=0||filesize<=0) return;
 
 		mySQLConnector con=new mySQLConnector();
-		String modeluseinsert="insert into platformuser.modeluse( username,FK_model,usetime,modelsize) values(?,?,?,?);";
+		String modeluseinsert="insert into usermanager.modeluse( username,FK_model,usetime,modelsize) values(?,?,?,?);";
 		con.readyPreparedStatement(modeluseinsert);
 		con.setString(1, user);
 		con.setInt(2,fileID);

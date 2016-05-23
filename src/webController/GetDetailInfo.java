@@ -53,7 +53,7 @@ public class GetDetailInfo extends HttpServlet {
 			if(request.getParameter("id")!=null&&!request.getParameter("id").equals("")){
 				int softid=Integer.parseInt(request.getParameter("id"));
 				mySQLConnector con=new mySQLConnector();
-				con.readyPreparedStatement("select * from objectmodelingsoft.softinfo where softID=?");
+				con.readyPreparedStatement("select * from softnode.softinfo where softID=?");
 				con.setInt(1, softid);
 				try {
 					jsonArray=ResultSetConverter.convert(con.executeQuery());
@@ -106,7 +106,7 @@ public class GetDetailInfo extends HttpServlet {
 			{
 				int nodeid=Integer.parseInt(request.getParameter("id"));
 				mySQLConnector con=new mySQLConnector();
-				con.readyPreparedStatement("select * from objectmodelingsoft.nodeinfo,objectmodelingsoft.availableresource where nodeID=? and nodeID=FK_node");
+				con.readyPreparedStatement("select * from softnode.nodeinfo,objectmodelingsoft.availableresource where nodeID=? and nodeID=FK_node");
 				con.setInt(1, nodeid);
 				try {
 					jsonArray=ResultSetConverter.convert(con.executeQuery());
@@ -132,7 +132,7 @@ public class GetDetailInfo extends HttpServlet {
 			{
 				int nodeid=Integer.parseInt(request.getParameter("id"));
 				mySQLConnector con=new mySQLConnector();
-				con.readyPreparedStatement("select * from objectmodelingsoft.availableresource where FK_node=?");
+				con.readyPreparedStatement("select * from softnode.availableresource where FK_node=?");
 				con.setInt(1, nodeid);
 				try {
 					jsonArray=ResultSetConverter.convert(con.executeQuery());
@@ -158,7 +158,7 @@ public class GetDetailInfo extends HttpServlet {
 			{
 				int objectid=Integer.parseInt(request.getParameter("id"));
 				mySQLConnector con=new mySQLConnector();
-				con.readyPreparedStatement("select * from geomodel.objecttype_view,geomodel.objectinfo where objectID=? and 目标分类=ID");
+				con.readyPreparedStatement("select * from softnode.objecttype_view,geomodel.objectinfo where objectID=? and 目标分类=ID");
 				con.setInt(1, objectid);
 				try {
 					jsonArray=ResultSetConverter.convert(con.executeQuery());

@@ -57,7 +57,7 @@ public class GetAvailableSoft extends HttpServlet {
 			 * step3.返回所有可用软件的软件编号、名称、logo图片
 			 * */
 			mySQLConnector con=new mySQLConnector();
-			String getObjectivesoftsSql="select 适用软件 from geomodel.fileinfo where fileID=?";
+			String getObjectivesoftsSql="select 适用软件 from softnode.fileinfo where fileID=?";
 			con.readyPreparedStatement(getObjectivesoftsSql);
 			con.setInt(1, Integer.parseInt(request.getParameter("fileID")));
 			ResultSet rs=con.executeQuery();
@@ -74,7 +74,7 @@ public class GetAvailableSoft extends HttpServlet {
 			{
 				int[] weights=new int[softs.length];
 				String checkAvailablesoftSql="select availablecount "
-						+ "from objectmodelingsoft.availableresource as a,objectmodelingsoft.availablenode_view as n "
+						+ "from softnode.availableresource as a,softnode.availablenode_view as n "
 						+ "where n.nodeID=a.FK_node "
 						+ "and softname Like ? "//节点支持该软件
 						+ "and occupied=0;";
@@ -99,7 +99,7 @@ public class GetAvailableSoft extends HttpServlet {
 				sortSoftwithWeight(softs,weights);//根据权重对软件进行排序
 				
 				JSONArray jsonArray=new JSONArray();
-				String getpopersoftdetailSql="select softID,softname,LOGO from objectmodelingsoft.softinfo where softname=?";
+				String getpopersoftdetailSql="select softID,softname,LOGO from softnode.softinfo where softname=?";
 				con.readyPreparedStatement(getpopersoftdetailSql);
 				for(int i=0;i<softs.length;i++)
 				{

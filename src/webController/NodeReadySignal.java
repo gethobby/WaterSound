@@ -67,7 +67,7 @@ public class NodeReadySignal extends HttpServlet {
 			if(modelID!=null&&!modelID.equals("null")&&!(modelID.trim().equals(""))){
 				System.out.println("start file prepare");
 				mySQLConnector con=new mySQLConnector();
-				String getmodelfilepathSQL="select 模型文件, storepath,size from geomodel.fileinfo where fileID=?";
+				String getmodelfilepathSQL="select 模型文件, storepath,size from softnode.fileinfo where fileID=?";
 				con.readyPreparedStatement(getmodelfilepathSQL);
 				con.setInt(1, Integer.parseInt(modelID));
 				ResultSet rs=con.executeQuery();

@@ -58,7 +58,7 @@ public class ApplynodeServlet extends HttpServlet {
 			System.out.println("===文件信息ID :"+request.getParameter("modelID"));
 			
 			mySQLConnector con=new mySQLConnector();
-			String getmodelfilenameSql="select 模型文件 from geomodel.fileinfo where fileID=?";
+			String getmodelfilenameSql="select 模型文件 from softnode.fileinfo where fileID=?";
 			con.readyPreparedStatement(getmodelfilenameSql);
 			con.setInt(1, Integer.parseInt(request.getParameter("modelID")));
 			ResultSet rs=con.executeQuery();

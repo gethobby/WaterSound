@@ -91,14 +91,14 @@ public class NodeMachine {
 		boolean flag=true;
 		
 		mySQLConnector con=new mySQLConnector();
-		String insertNewnodeSql="insert into objectmodelingsoft.nodeinfo "
+		String insertNewnodeSql="insert into softnode.nodeinfo "
 				+ "(IPAddress,status,maxcount) values(?,0,?)";
 		con.readyPreparedStatement(insertNewnodeSql);
 		con.setString(1, this.IPAddress);
 		con.setInt(2, this.NodeMaxuseCount);
 		if(con.executeUpdate()<=0) return false; 
 		
-		String getNewnodeID="select nodeID from objectmodelingsoft.nodeinfo where IPAddress=?;";
+		String getNewnodeID="select nodeID from softnode.nodeinfo where IPAddress=?;";
 		con.readyPreparedStatement(getNewnodeID);
 		con.setString(1, this.IPAddress);
 		try {
@@ -112,7 +112,7 @@ public class NodeMachine {
 		if(this.NodeID==0) return false;
 		else{
 			
-			String insertNewnoderesourceSql="insert into objectmodelingsoft.availableresource (FK_node,account,password,port,softname) values(?,?,?,?,?)";
+			String insertNewnoderesourceSql="insert into softnode.availableresource (FK_node,account,password,port,softname) values(?,?,?,?,?)";
 			con.readyPreparedStatement(insertNewnoderesourceSql);
 			con.setInt(1, this.NodeID);
 			for(int i=0;i<this.Accounts.length;i++)

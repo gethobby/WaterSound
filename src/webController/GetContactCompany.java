@@ -48,7 +48,7 @@ public class GetContactCompany extends HttpServlet {
 		
 			JSONArray jsonArray=null;
 			mySQLConnector con=new mySQLConnector();
-			String getContactCompanySql="select 单位名称 from geomodel.Companyinfo";
+			String getContactCompanySql="select 单位名称 from softnode.Companyinfo";
 			con.readyPreparedStatement(getContactCompanySql);
 			try {
 				jsonArray=ResultSetConverter.convert(con.executeQuery());

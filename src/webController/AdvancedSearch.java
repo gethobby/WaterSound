@@ -51,7 +51,7 @@ public class AdvancedSearch extends HttpServlet {
 		if(param!=null&&param.equals("object"))
 		{
 			mySQLConnector con=new mySQLConnector();
-			String getFilteredobjectSql="select * from geomodel.objectinfo,geomodel.objecttype_view where ID=objectID and 目标名称 like ? ";
+			String getFilteredobjectSql="select * from softnode.objectinfo,geomodel.objecttype_view where ID=objectID and 目标名称 like ? ";
 			String ObjectNameCondition=null;
 			String ObjectType1Condition=null;
 			String ObjectType2Condition=null;

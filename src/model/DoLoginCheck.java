@@ -12,7 +12,7 @@ public class DoLoginCheck {
 	String password;
 	String role;
 	String sql;
-	String accessLog="insert into platformuser.userlog( username,logintime,logouttime ) values(?,?,?)";
+	String accessLog="insert into usermanager.userlog( username,logintime,logouttime ) values(?,?,?)";
 	public boolean isSuccess()
 	{
 		boolean flag=false;
@@ -41,14 +41,14 @@ public class DoLoginCheck {
 	{
 		username=u;
 		password=p;
-		sql="select * from platformuser.account where username=? and password=?;";
+		sql="select * from usermanager.account where username=? and password=?;";
 	}
 	public DoLoginCheck(String u,String p,String r)
 	{
 		username=u;
 		password=p;
 		role=r;
-		sql="select * from platformuser.account where username=? and password=? and role=?;";
+		sql="select * from usermanager.account where username=? and password=? and role=?;";
 	}
 	public DoLoginCheck(){}
 	/**
@@ -80,7 +80,7 @@ public class DoLoginCheck {
 		boolean flag=false;
 		
 		mySQLConnector con=new mySQLConnector();
-		String insertnewuserSql="insert into platformuser.account(username,password,role,status) values(?,?,?,?);";
+		String insertnewuserSql="insert into usermanager.account(username,password,role,status) values(?,?,?,?);";
 		con.readyPreparedStatement(insertnewuserSql);
 		con.setString(1, this.username);
 		con.setString(2, this.password);

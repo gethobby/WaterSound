@@ -76,7 +76,7 @@ public class GeoModel {//目标的实体类
 	public void setObjectTypeID()
 	{
 		mySQLConnector con=new mySQLConnector();
-		String getobjectclassidSql="select ID from geomodel.objecttype_view where 一级类别=? and 二级类别=?";
+		String getobjectclassidSql="select ID from softnode.objecttype_view where 一级类别=? and 二级类别=?";
 		con.readyPreparedStatement(getobjectclassidSql);
 		con.setString(1, this.ObjectType1);
 		con.setString(2, this.ObjectType2);
@@ -96,7 +96,7 @@ public class GeoModel {//目标的实体类
 		boolean flag=true;
 		mySQLConnector con=new mySQLConnector();
 		
-		String insertNewObjectSql="insert into geomodel.objectinfo(目标名称,目标图片,目标分类,所属国家) values(?,?,?,?) ";
+		String insertNewObjectSql="insert into softnode.objectinfo(目标名称,目标图片,目标分类,所属国家) values(?,?,?,?) ";
 		con.readyPreparedStatement(insertNewObjectSql);
 		con.setString(1, this.ObjectName);
 		con.setString(2,this.ObjectLOGO);
@@ -122,7 +122,7 @@ public class GeoModel {//目标的实体类
 		
 		mySQLConnector con=new mySQLConnector();
 		
-		String updateobjectinfoSql="update geomodel.objectinfo "
+		String updateobjectinfoSql="update softnode.objectinfo "
 				+ "set 目标名称=?,目标图片=?,目标分类=?,所属国家=? "
 				+ "where objectID=?";
 		con.readyPreparedStatement(updateobjectinfoSql);

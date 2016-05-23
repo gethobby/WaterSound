@@ -3,8 +3,8 @@ package model;
 
 public class DoDeleteByID {
 
-	private static final String DeleteSoftSql = "delete from objectmodelingsoft.softinfo where softID=?";
-	private static final String DeleteUserSql="delete from platformuser.account where userID=?";
+	private static final String DeleteSoftSql = "delete from softnode.softinfo where softID=?";
+	private static final String DeleteUserSql="delete from usermanager.account where userID=?";
 
 
 	/*
