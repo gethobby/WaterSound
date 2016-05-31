@@ -268,7 +268,10 @@ function downloadModelFile(modelName) {
 		     //traditional: true,
 		     success:function(str_response){
 		    	 if("success"==str_response)
-		    	 {alert("下载成功！");}
+		    	 {
+		    		 alert("下载成功！");
+		    		 window.location.href="test.txt"
+			  	 }
 		    	 else{alert("下载失败！");}
 		     }
 		});

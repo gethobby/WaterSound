@@ -63,7 +63,7 @@ public class Util {
 	 * 
 	 * @param cmd 服务器发出的命令：0表示上传，表示下载
 	 * @param IP  节点机的IP(因为节点机socket是通信的S端)
-	 * @param port 节点机socket的IP(config.txt确定)
+	 * @param port 节点机socket的Port(config.txt确定)
 	 * @param filepath 要上传的文件完整路径
 	 * @param user  当前服务器上登录的用户
 	 * @return
@@ -78,7 +78,7 @@ public class Util {
 			commons[3]=Integer.toString(port);//"6666";
 			
 			if(filepath==null) commons[4]="NULL";
-			else commons[4]=filepath;//"D:\\file\\testSN.txt";
+			else commons[4]=filepath;//"D:\\file\\te stSN.txt";
 			commons[5]=user;
 			
 			try {
@@ -97,8 +97,8 @@ public class Util {
 	  /**
 		 * 
 		 * @param cmd 服务器发出的命令：0表示上传，表示下载
-		 * @param IP  节点机的IP(因为节点机socket是通信的S端)
-		 * @param port 节点机socket的IP(config.txt确定)
+		 * @param IP  节点机的IP(因为节点机socket是通信C端)
+		 * @param port 服务器端的socket的Port(为了方便，统一由config.txt确定)
 		 * @param filepath 要从节点机中下载下来的文件(包含后缀)
 		 * @param user  当前服务器上登录的用户
 		 * @param callbackpath 下载的文件保存到服务器上的存储路径
