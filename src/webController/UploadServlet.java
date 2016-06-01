@@ -1,6 +1,10 @@
 package webController;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,11 +26,12 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 
-import developConfig.Gobal;;
+import developConfig.Gobal;
+
 /**
  * Servlet implementation class UploadServlet
  */
-@WebServlet("/UploadServlet")
+@WebServlet("/UploadServlet") // 复制模型文件(服务器的本地到服务器目录)
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static Logger logger = Logger.getRootLogger();   
@@ -52,25 +57,96 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
+		 String type = request.getParameter("type");
+		 
+		 
+		 if (type.equals("copy")) {
+			  String modelName = request.getParameter("modelName");
+			 if (modelName!=null) {
+				 String modelZip = modelName.substring(0, modelName.lastIndexOf('.'))+".zip";
+				 System.out.println(modelZip);
+				 String from = Gobal.SERVER_RECV_CALLBACK+modelZip;
+				 System.out.println("form=="+from);
+				 String to = getServletContext().getRealPath("/Down")+"/"+modelZip;
+				 System.out.println("to=="+to);
+				
+				 copyFile(from, to);
+				 
+			     System.out.println("复制完成！");
+			    response.getWriter().append("success");
+			}		
+			
+		}
+		else if (type.equals("upload")) {
+			//原因：上传文件是通过字节流进行传输的，表单的其它项是通过文字来传输的，所以表单一起传输时，就会出现获取到的值为null的结果
+			response.setContentType("text/html;charset=UTF-8");
+			RequestContext requestContext = new ServletRequestContext(request);
+			String savePath = getServletContext().getRealPath("/Up");
+			System.out.println(savePath);
+			String fileName = processUpload(requestContext, response, savePath);
+	        //System.out.println("http://localhost:8080"+savePath);
+			System.out.println("文件上传至服务器结束");
+			
+			// 用户上传至服务器后，开始复制到socket指定运行目录
+			 System.out.println(fileName); 
+			 
+			 String from = savePath+"/"+fileName;
+			 System.out.println("form=="+from);
+			 
+			 String to = Gobal.OBJECT_ROOT_DIR+fileName;
+			 System.out.println("to=="+to);
+			 
+			 copyFile(from, to);
+			
+		}
 		
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
-		RequestContext requestContext = new ServletRequestContext(request);
-		String imgstr = Gobal.OBJECT_ROOT_DIR;
-		System.out.println(request.getParameter("targetID"));
-		if(request.getParameter("targetID")!=null&&!request.getParameter("targetID").equals(""))
-		{imgstr = imgstr+"\\"+request.getParameter("targetID")+"\\";}
-		else imgstr+="\\";
-		String savePath = generateDir(imgstr);
-		//int fileID=Integer.parseInt(request.getParameter("ID"));
-		processUpload(requestContext, response, savePath);
-        //System.out.println("http://localhost:8080"+imgstr);
-		System.out.println("文件上传结束");
+	    
 	}
-    /*
+	/*
+	 * 复制文件
+	 */
+	
+	public void copyFile(String from,String to) {
+		 File fromPath =new File(from);
+		 while (!fromPath.exists()) {
+			System.out.println("文件未准备好，请稍等...");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 }
+		 
+
+		try {
+	     	FileInputStream fis = new FileInputStream(from);
+			BufferedInputStream bufis = new BufferedInputStream(fis);
+			 
+		     FileOutputStream fos = new FileOutputStream(to);
+		     BufferedOutputStream bufos = new BufferedOutputStream(fos);
+		 
+		        int len = 0;
+		        while ((len = bufis.read()) != -1) {
+		            bufos.write(len);
+		        } 
+		        
+		       bufis.close();
+	           bufos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    	 	       
+	}
+	
+	 /*
      * 模型文件上传处理方法
      */
-    public void processUpload(RequestContext request,
+    public String processUpload(RequestContext request,
             HttpServletResponse response, String savePath) throws IOException {
         //测试期间数据                                                                                   
         //String owner="admin";
@@ -80,12 +156,10 @@ public class UploadServlet extends HttpServlet {
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 缓存大小为512KB
         factory.setSizeThreshold(524288);
-        // 临时文件夹
-        factory.setRepository(new File(savePath + "\\temp"));
-        // 初始化上传控件
+         // 初始化上传控件
         ServletFileUpload upload = new ServletFileUpload(factory);
-        // 文件大小最大3MB
-        upload.setFileSizeMax(3145728);
+        // 文件大小最大1B
+        upload.setFileSizeMax(1024*1024*1024);
         upload.setHeaderEncoding("UTF-8");
         List<FileItem> fileList = null;
         try {
@@ -100,6 +174,7 @@ public class UploadServlet extends HttpServlet {
             FileItem item = it.next();
             if (!item.isFormField()) {
                 fullpath = item.getName();
+                System.out.println("上传文件的位置===="+fullpath);
                 if (fullpath != null && !fullpath.trim().equals("")) {
                 	System.out.println(fullpath.substring(fullpath.lastIndexOf('\\')+1));//测试
                     //filename = generateFileName(name);//测试期间按时间随机生成文件名
@@ -121,19 +196,16 @@ public class UploadServlet extends HttpServlet {
 							}
 							is.close();
 							os.close();
-							
-							//更新模型文件记录的size字段
-//							mySQLConnector con=new mySQLConnector();
-//							String updatesizeSql="update geomodel.fileinfo set size=? where fileID=?";
-//							con.readyPreparedStatement(updatesizeSql);
-//							con.setInt(1, count/1024);
-//							con.setInt(2,fileID);
-//							con.executeUpdate();
-//							con.close();
+
 							int size=(int)(item.getSize()/1024);
 							if(size==0) size=1;//文件大小小于1k按1k计算
 							logger.debug("admin upload file:" + filename + " success!");
-							response.getWriter().write("<script>parent.callback('模型文件上传成功！','"+savePath.replace('\\', '/')+"',"+size+")</script>");
+							response.getWriter().write("<script>parent.callback('模型文件上传至服务器成功！','"+savePath.replace('\\', '/')+"',"+size+")</script>");
+							
+						   return filename;		
+							
+							
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -143,48 +215,18 @@ public class UploadServlet extends HttpServlet {
 
             			response.getWriter().write("<script>parent.callback('Failed!文件名称冲突,请重新命名！')</script>");
                     	System.out.println(filename+"文件名称冲突,请重新命名！");
+                    	
+                    	return "";
                     }
                 }
+                else{
+                	return "";
+                }
             }
+           else { //没有选中上传文件
+			return "";
+		  }
         }
+		return "";
     }
-    /*
-     * 初始化文件存储路径
-     */
-    private String generateDir(String p) {
-        String pathString = p;
-        String tempString = p+"\\temp";
-        File dirPath = new File(pathString);
-        File dirTemp = new File(tempString);
-        if (!dirPath.exists()) {
-            dirPath.mkdirs();
-        }
-        if (!dirTemp.exists()) {
-            dirTemp.mkdirs();
-        }
-        return pathString;
-    }
-    /*
-     * 生成文件名
-     * 按时间生成文件名
-     */
-    private String generateFileName(String name) {
-        long currentTime = System.currentTimeMillis();
-        int i = (int) (Math.random() * 1000D + 1.0D);
-        long result = currentTime + i;
-        String filename = String.valueOf(result) + getFileExt(name);
-        return filename;
-    }
-    /*
-     * 获取文件格式
-     */
-    private String getFileExt(String name) {
-        int pos = name.lastIndexOf(".");
-        if (pos > 0) {
-            return name.substring(pos);
-        } else {
-            return name;
-        }
-    }
-
 }

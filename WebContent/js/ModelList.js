@@ -259,9 +259,9 @@ function downloadModelFile(modelName) {
 	var index = obj.selectedIndex; // 选中索引
 	var nodeIP = obj.options[index].value; // 选中值
 	
-	alert(modelName);
+	//alert(modelName);//模型名带后缀
 	if(modelName!=null){
-		
+		//将存储节点机模型文件下载至服务器磁盘目录
 		$.ajax({   
 		     type: "POST",   
 		     url: "/WaterSound/DownloadModelFile?modelName="+modelName+"&nodeIP="+nodeIP,   
@@ -270,11 +270,28 @@ function downloadModelFile(modelName) {
 		    	 if("success"==str_response)
 		    	 {
 		    		 alert("下载成功！");
-		    		 window.location.href="test.txt"
-			  	 }
+		    		// 指定磁盘的模型文件(从存储节点机下载的压缩模型文件)复制到webcontent目录
+		    			$.ajax({   
+		    			     type: "POST",   
+		    			     url: "/WaterSound/UploadServlet?type=copy&modelName="+modelName, 
+		    			     //traditional: true,
+		    			     success:function(str_response){
+		    			    	 if("success"==str_response)
+		    			    	 {
+		    			    		 alert("复制成功！");
+		    			    		 var path = "/WaterSound/Down/"+modelName.replace(/.\w+$/,"")+".zip";
+		    			    		 //alert(path);
+		    			    		 window.location.href=path;
+		    				  	 }
+		    			    	 else{alert("复制失败！");}
+		    			     }
+		    			});
+		    		 
+			 }
 		    	 else{alert("下载失败！");}
 		     }
 		});
+			
 	}
 }
 
@@ -350,14 +367,15 @@ function createModelTR(ModelID, FileName,SortPath,MatchSotf)
 
 
 	 
-function filledModelName() {
+function filledModelName() { //讲用户本地上传的模型文件保存到服务器目录，并复制到服务器端Socket上传的目录
 	 var file = document.getElementById("file");
 	var fileName = document.getElementById("ObjectName");
 	//alert(file.value)
 	var url=file.value;
 	url=url.split("\\");//这里要将 \ 转义一下
 	fileName.value = url[url.length-1];
-	//alert("文件名 "+url[url.length-1]);
+	alert("文件名 "+url[url.length-1]);
+	document.getElementById("form1").submit();
 }
 
 //(上传)添加新的模型
