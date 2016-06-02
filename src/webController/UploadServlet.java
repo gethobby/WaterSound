@@ -31,7 +31,8 @@ import developConfig.Gobal;
 /**
  * Servlet implementation class UploadServlet
  */
-@WebServlet("/UploadServlet") // 复制模型文件(服务器的本地到服务器目录)
+@WebServlet("/UploadServlet")
+
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static Logger logger = Logger.getRootLogger();   

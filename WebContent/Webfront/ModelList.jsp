@@ -214,8 +214,8 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 				<div id="AllSoft">
 				</div>
 			</div><a style="color:red;display:none">✖</a><br>
-		   <input type="text" id="modelDes"  style="width:250px"  value="简介"/><a style="color:red;display:none">✖</a><br>
-		<button class="blue" onclick="upmodelfile()">确认上传</button>
+		    <input type="text" id="modelDes"  style="width:400px"  value="简介"/><a style="color:red;display:none">✖</a><br>
+		    <button class="blue" onclick="upmodelfile()">确认上传</button>
 		</div>
 	</section>
 </div>
