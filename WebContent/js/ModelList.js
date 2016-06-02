@@ -375,7 +375,7 @@ function filledModelName() { //讲用户本地上传的模型文件保存到服�
 	url=url.split("\\");//这里要将 \ 转义一下
 	fileName.value = url[url.length-1];
 	alert("文件名 "+url[url.length-1]);
-	document.getElementById("form1").submit();
+	//document.getElementById("form1").submit();
 }
 
 //(上传)添加新的模型

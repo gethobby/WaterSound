@@ -204,7 +204,7 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 		模型位置：
 			<form action="../UploadServlet?type=upload" id="form1" name="form1" encType="multipart/form-data"  method="post" target="hidden_frame" >   
     			<input type="file" id="file" name="file"  onchange="filledModelName()" style="width:150px"><input id="ObjectLogo" type="hidden">   
-    			<span id="msg"></span><br><font color="red">请选择系统指定模型文件夹内文件上传</font>                 
+    			<input type="submit" value="加载文件" style="width:80px"><span id="msg"></span><br><font color="red">请选择系统指定模型文件夹内文件上传</font> 		              
     			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe><a style="color:red;display:none">✖</a><br>     		
 		    模型名称：<input type="text" name="modelName" id="ObjectName" readOnly="true" style="width:250px"><a style="color:red;display:none">✖</a><br>
 		   </form> <a style="color:red;display:none">✖</a><br>  
