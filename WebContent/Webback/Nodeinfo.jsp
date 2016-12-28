@@ -51,8 +51,8 @@
 		<li  class="section">
 			<a href="NodeManage.jsp" class="nodes" title="Nodes"><span class="icon">&#128711;</span> 节点管理</a>
 			<ul class="submenu">
-				<li><a href="PlatformlogNodeconcern.jsp">节点使用情况</a></li>
-				<li class="last"><a href="Nodeinfo.jsp">添加节点</a></li>
+				<li><a href="PlatformlogNodeconcern.jsp">计算节点使用情况</a></li>
+				<li class="last"><a href="Nodeinfo.jsp">添加计算节点</a></li>
 			</ul>
 		</li>
 		<li>

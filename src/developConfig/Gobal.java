@@ -23,16 +23,20 @@ public interface Gobal {
 	String QUERY_DB_PASSWORD="123456";
 	
 	/*以下若干行配置为服务器配置*/
-	//存放与节点机交流的C++软件的路径
+	//存放与存储节点机交流的C++软件的路径
 	String NODE_COMMUNICATE_APP="D:\\WaterSound\\WaterSound_Deploy\\SavedServerSide.exe";
 	String RESULT_RECEIVE_APP="D:\\WaterSound\\WaterSound_Deploy\\SavedResultServer.exe";
-	//存放从节点机接受的模型文件以及操作记录路径
-	String SERVER_RECV_CALLBACK = "D:\\WaterSound\\ModelCallBack\\" ;
+	//存放与软件节点机交流的C++软件路径
+	String NODE_COMMUNICATE_APP_SOFT="D:\\WaterSound\\WaterSound_Deploy\\ServersideControl.exe";
+	String RESULT_RECEIVE_APP_SOFT="D:\\WaterSound\\WaterSound_Deploy\\ResultServerSide.exe";
+	//存放从存储节点机接受的模型文件以及操作记录路径
+	String SERVER_RECV_CALLBACK = "D:/WaterSound/ModelCallBack/" ;
 	String SERVER_RECV_XML = "Result.xml";
 	//所有模型文件存放路径
-	String OBJECT_ROOT_DIR="D:\\WaterSound\\ObjectModelfile\\";
+	String OBJECT_ROOT_DIR="D:/WaterSound/ModelCallBack/";
+	String OBJECT_ROOT_DIR_WIN="D:\\WaterSound\\ModelCallBack\\";
 	//所有图片存放路径
-	String PICTURE_ROOT_DIR="D:\\WaterSound\\Pictures";
+	String PICTURE_ROOT_DIR="D:\\WaterSound\\Pictures\\";
 	
 	//存放snmp所需数据信息
 	String SERVER_SNMP_IP="udp:127.0.0.1/161";

@@ -73,9 +73,12 @@ public class GetSoftList extends HttpServlet {
 			
 		}
 		else{
-			
+			//添加查询条件
+			String searchParams = request.getParameter("searchParams");
+			//System.out.println("查询参数==="+searchParams);
 			GirdfileList gf = new GirdfileList();
-			List<String[]> list = gf.getSoftList();
+			List<String[]> list = gf.getSoftList(searchParams);
+			//System.out.println("查询后长度："+list.size());
 			if (list != null) {
 				// System.out.println(list);
 				request.setAttribute("softlist", list);

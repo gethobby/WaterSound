@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import model.NodeMachine;
 import model.UploadFile;
 import model.mySQLConnector;
@@ -36,7 +37,21 @@ public class NodeReadySignal extends HttpServlet {
 		// TODO Auto-generated method stub
 		doPost(request,response);
 	}
-
+    
+	
+	protected boolean deleteRecordByModelIDWithSoftNodeFileInfo(String modelID) {
+		
+		   mySQLConnector con  = new mySQLConnector();
+		   System.out.println("准备删除模型ID= "+modelID+"对应记录");
+		   String deletesql = "delete from softnode.fileinfo where fileID=?";
+		   con.readyPreparedStatement(deletesql);
+		   con.setInt(1, Integer.parseInt(modelID));
+		   if (con.executeUpdate()>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -94,10 +109,16 @@ public class NodeReadySignal extends HttpServlet {
 			else{modelID=null;}
 			
 			NodeMachine nm=new NodeMachine();
-			if(nm.startPreparing(nodeIP,port,softname,filepath,username))
+			//该函数已经利用serverside-socket将模型文件发送到了软件节点，完成后需要删除softnode.fileinfo对应的记录
+			if(nm.startPreparing(nodeIP,port,softname,filepath,username)) 
 			{
 				response.getWriter().append("ready");
 				//此处节点机器准备完成后，插入模型的使用记录
+				if (deleteRecordByModelIDWithSoftNodeFileInfo(modelID)) {
+					System.out.println("删除softnode.fileinfo表中记录成功");
+				}else {
+					System.out.println("删除softnode.fileinfo表中记录失败");
+				}
 				if(modelID!=null){
 					UploadFile.InsertModelFileuselog(username, Integer.parseInt(modelID), filesize);
 				}

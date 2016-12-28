@@ -32,7 +32,7 @@ function autoLoadSystemArchi()
 	var Links=[];
 	Links.push({source : 'StorageNode1', target : 'Server', weight : 2});
     $.ajax({
-    	url: '/NodesoftManage/NodeStatus',
+    	url: '/WaterSound/NodeStatus',
     	success:function(data){	
     		var len = data.length-1;
     		while(len>=0)
@@ -399,7 +399,7 @@ function loadNodeStatus(nodename){
                     clearInterval(timeTicket);
                     timeTicket = setInterval(function (){
                     	if(document.getElementById('nodestatus').style.display!="none"){
-                	    	var nstatusurl="/NodesoftManage/NodeStatus?nodeid="+nodename.substring(11)+"&tid="+Math.random();
+                	    	var nstatusurl="/WaterSound/NodeStatus?nodeid="+nodename.substring(11)+"&tid="+Math.random();
                 	    	var htmlobj=$.ajax({url:nstatusurl,success:function(res){
                 	    		var param=res.split(',');
                 	        	if(param[0]=="success"){
@@ -671,7 +671,7 @@ function loadServerStatus(){
             clearInterval(timeTicket);
             timeTicket = setInterval(function (){
             	if(document.getElementById('serverstatus').style.display!="none"){
-        	    	var sstatusurl="/NodesoftManage/ServerStatus?tid="+Math.random();
+        	    	var sstatusurl="/WaterSound/ServerStatus?tid="+Math.random();
         	    	var htmlobj=$.ajax({url:sstatusurl,async:true,success:function(){
         	    		var param=htmlobj.responseText.split(',');
         	        	if(param[0]=="success"){
@@ -783,7 +783,7 @@ function loadServerStatus(){
 function loadnewstatus()
     {            
     	if(document.getElementById('serverstatus').style.display!="none"){
-	    	var sstatusurl="/NodesoftManage/ServerStatus?tid="+Math.random();
+	    	var sstatusurl="/WaterSound/ServerStatus?tid="+Math.random();
 	    	var htmlobj=$.ajax({url:sstatusurl,async:true,success:function(){
 	    		var param=htmlobj.responseText.split(',');
 	        	if(param[0]=="success"){

@@ -89,11 +89,11 @@ function createFileTR(FileName,FileId,FileSource,FileDescription)
 }
 /*
  * 寻找选中的模型文件
- * 返回：选中模型文件的ID
+ * 返回：选中模型文件的(ID,modelName)
  */
 function findCheckedModelfile()
 {
-	var modelfiles=document.getElementsByName("files");
+	var modelfiles=document.getElementsByName("model"); // files改成了model，因为不存在object
 	var index=0;
 	while(index<modelfiles.length)
 	{
@@ -101,19 +101,36 @@ function findCheckedModelfile()
 		index++;
 	}
 	if(index<modelfiles.length){
+		// alert(modelfiles[index].value);
 		return modelfiles[index].value;
 	}
 	else return undefined;
 }
+
 /*
  * 根据模型文件显示可用目标软件
  * */
+
+var isjianmo =false;
 function jianmo(){
-	var ModelfileID=findCheckedModelfile();
+    var modeid_name = findCheckedModelfile();
+    var arr = modeid_name.split(",");
+	var ModelfileID=arr[0];
+	var ModelfileName = arr[1];
+	//alert(ModelfileID+","+ModelfileName);
+	//接下来，先按照fileName把模型从存储节点机下载下来(本地磁盘文件后复制到webcontent),然后，调用socket发送到软件节点机
+	isjianmo = true;
+	
+	downloadModelFile(ModelfileName);
+	var obj = document.getElementById("DB_NO"); //定位id
+	var index = obj.selectedIndex; // 选中索引
+	var nodeIP = obj.options[index].value; // 选中值
+	//alert(ModelfileID+","+nodeIP);
+	
 	if(ModelfileID){
 		$.ajax({
 			type: "post",
-			url:'/WaterSound/GetAvailableSoft?fileID='+ModelfileID,//模型文件ID（文件名fileinfo_ID）
+			url:'/WaterSound/GetAvailableSoft?fileID='+ModelfileID+"&nodeIP="+nodeIP,//模型文件ID（文件名fileinfo_ID,文件所属nodeIP）
 			success:function(data){
 				document.getElementById("softlist").innerHTML="";
 				if(data&&data.length)
@@ -278,10 +295,14 @@ function downloadModelFile(modelName) {
 		    			     success:function(str_response){
 		    			    	 if("success"==str_response)
 		    			    	 {
-		    			    		 alert("复制成功！");
+		    			    		 if (!isjianmo) {
+									 //alert("复制成功！"); // 复制成功后，把webcontent里的压缩文件选择保存到本地
 		    			    		 var path = "/WaterSound/Down/"+modelName.replace(/.\w+$/,"")+".zip";
 		    			    		 //alert(path);
 		    			    		 window.location.href=path;
+									}else {
+										isjianmo = false;
+									}		    			    		
 		    				  	 }
 		    			    	 else{alert("复制失败！");}
 		    			     }
@@ -305,13 +326,16 @@ function GetModelList() {
 	var index = obj.selectedIndex; // 选中索引
 	var nodeIP = obj.options[index].value; // 选中值
 	
+	var params = document.getElementById("search").value; // 模型查询条件
+	//alert(params);
+	
 	var tby = document.getElementById("filename"); //定位tbody
 	
 	if(nodeIP!=null){
 
 		$.ajax({   
 		     type: "POST",   
-		     url: "/WaterSound/GetModellist?nodeIP="+nodeIP,   
+		     url: "/WaterSound/GetModellist?nodeIP="+nodeIP+"&searchParams="+params,   
 		     //traditional: true,
 		     success:function(data){
 		    	 
@@ -335,7 +359,7 @@ function GetModelList() {
 function createModelTR(ModelID, FileName,SortPath,MatchSotf)
 {
 	 
-	var tdcol1template='<input name="model" type="radio" style="width: 20px" ><strong>NO.</strong>{{%modelID}}';
+	var tdcol1template='<input name="model" type="radio" style="width: 20px" value="{{%modelID}},{{%filename}}"><strong>NO.</strong>{{%modelID}}';
 	var tdcol2template='<a href="#" onclick="ModifyModelFileinfo(\'{{%modelID}}\')">{{%filename}}</a>' ;
 	var tdcol3template='{{%filepath}}';
 	var tdcol4template='{{%filesoft}}';
@@ -349,7 +373,7 @@ function createModelTR(ModelID, FileName,SortPath,MatchSotf)
 	var td4=document.createElement('td');
 	var td5=document.createElement('td');
 	
-	td1.innerHTML=new t(tdcol1template).render({modelID:ModelID});
+	td1.innerHTML=new t(tdcol1template).render({modelID:ModelID,filename:FileName});//
 	td2.innerHTML=new t(tdcol2template).render({modelID:ModelID,filename:FileName});
 	td3.innerHTML=new t(tdcol3template).render({filepath:SortPath});
 	td4.innerHTML=new t(tdcol4template).render({filesoft:MatchSotf});
@@ -375,7 +399,6 @@ function filledModelName() { //讲用户本地上传的模型文件保存到服�
 	url=url.split("\\");//这里要将 \ 转义一下
 	fileName.value = url[url.length-1];
 	alert("文件名 "+url[url.length-1]);
-	//document.getElementById("form1").submit();
 }
 
 //(上传)添加新的模型

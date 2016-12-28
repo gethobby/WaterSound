@@ -146,7 +146,7 @@ public class NodeMachine {
 		//获取对应目标特性软件有空闲资源的节点使用信息
 		mySQLConnector con=new mySQLConnector();
 		String idleNodesqlpre="SELECT nodeID,IPAddress,count(ID) as targetsoftcount, availablecount,maxcount "
-				+ "FROM objectmodelingsoft.availableresource as a,objectmodelingsoft.availablenode_view as n "
+				+ "FROM softnode.availableresource as a,softnode.availablenode_view as n "
 				+ "where n.nodeID=a.FK_node and softname Like '%";
 		String idleNodesqlpos="%' group by nodeID;";
 		System.out.println(idleNodesqlpre+toolname+idleNodesqlpos);
@@ -194,7 +194,7 @@ public class NodeMachine {
 		if(index<0){flag=false;}
 		else{
 			this.IPAddress=ipAddress.get(index);
-			String getresourceinfoSql="select account,password,port from objectmodelingsoft.availableresource "
+			String getresourceinfoSql="select account,password,port from softnode.availableresource "
 					+ "where FK_node=? and occupied=0 and softname like ?;";
 			con.readyPreparedStatement(getresourceinfoSql);
 			con.setInt(1, nodeID.get(index));
@@ -212,7 +212,7 @@ public class NodeMachine {
 				flag=false;
 			}
 			if(this.Username!=null){
-				String updateaccountstatusSql="update objectmodelingsoft.availableresource "
+				String updateaccountstatusSql="update softnode.availableresource "
 						+ "set occupied=1 where FK_node=? and account=?";
 				con.readyPreparedStatement(updateaccountstatusSql);
 				con.setInt(1, nodeID.get(index));
@@ -300,7 +300,7 @@ public class NodeMachine {
 		Runtime rn = Runtime.getRuntime();
 		Process p = null;
 		String[] commons = new String[6];
-		commons[0]=Gobal.NODE_COMMUNICATE_APP;
+		commons[0]=Gobal.NODE_COMMUNICATE_APP_SOFT;
 		commons[1]=IP;//"127.0.0.1";
 		commons[2]=Integer.toString(port);//"6666";
 		commons[3]=toolname;//"feko";
@@ -362,13 +362,13 @@ public class NodeMachine {
 	{
 		boolean flag=true;
 		mySQLConnector con=new mySQLConnector();
-		con.readyPreparedStatement("select nodeID from objectmodelingsoft.nodeinfo where IPAddress=?;");
+		con.readyPreparedStatement("select nodeID from softnode.nodeinfo where IPAddress=?;");
 		con.setString(1,ip);
 		ResultSet rs= con.executeQuery();
 		try
 		{		
 			if(rs.next()){
-				con.readyPreparedStatement("update objectmodelingsoft.availableresource set occupied=0 where FK_node=? and account=?;");
+				con.readyPreparedStatement("update softnode.availableresource set occupied=0 where FK_node=? and account=?;");
 				con.setInt(1,rs.getInt("nodeID"));
 				con.setString(2,account);
 				if(con.executeUpdate()<=0){
@@ -391,7 +391,7 @@ public class NodeMachine {
 	{
 		boolean flag=true;
 		mySQLConnector con=new mySQLConnector();
-		con.readyPreparedStatement("update objectmodelingsoft.availableresource set occupied=0 where ID=?;");
+		con.readyPreparedStatement("update softnode.availableresource set occupied=0 where ID=?;");
 		con.setInt(1,resourceId);
 		if(con.executeUpdate()<=0){
 			System.out.println("release node account resource error!");
@@ -406,7 +406,7 @@ public class NodeMachine {
 	{
 		boolean flag=true;
 		mySQLConnector con=new mySQLConnector();
-		con.readyPreparedStatement("update objectmodelingsoft.availableresource set occupied=1 where ID=?;");
+		con.readyPreparedStatement("update softnode.availableresource set occupied=1 where ID=?;");
 		con.setInt(1,resourceId);
 		if(con.executeUpdate()<=0){
 			System.out.println("lock node account resource error!");
@@ -421,7 +421,7 @@ public class NodeMachine {
 		if(nodeID<=0) return false;
 		boolean flag=true;
 		mySQLConnector con=new mySQLConnector();
-		String updateNodeinfoSql="update objectmodelingsoft.nodeinfo set IPAddress=?,status=?,maxcount=? where nodeID=?";
+		String updateNodeinfoSql="update softnode.nodeinfo set IPAddress=?,status=?,maxcount=? where nodeID=?";
 		con.readyPreparedStatement(updateNodeinfoSql);
 		con.setString(1, this.IPAddress);
 		con.setInt(2, this.NodeStatus);
@@ -436,7 +436,7 @@ public class NodeMachine {
 		if(nodeID<=0) return false;
 		boolean flag=true;
 		mySQLConnector con=new mySQLConnector();
-		String updateResourceinfoSql="update objectmodelingsoft.availableresource set softname=? where FK_node=?";
+		String updateResourceinfoSql="update softnode.availableresource set softname=? where FK_node=?";
 		con.readyPreparedStatement(updateResourceinfoSql);
 		con.setString(1, this.AvailableSofts);
 		con.setInt(2, nodeID);

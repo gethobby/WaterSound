@@ -45,12 +45,21 @@ public class GetModellist extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
+		    request.setCharacterEncoding("utf-8");
 		
 			String nodeIP =request.getParameter("nodeIP"); 
 			mySQLConnector con=new mySQLConnector(nodeIP);
+			
+			String searchParams = request.getParameter("searchParams");
+			System.out.println("查询参数=="+searchParams);
+			
 			String filesummaryinfoSql="select fileID,模型文件,storepath,适用软件  "
-					+ "from modelinfo.fileinfo ";;
+					+ "from modelinfo.fileinfo ";
+			if (searchParams!=""&&searchParams!=null) {
+				//System.out.println("查询参数==="+searchParams);
+				filesummaryinfoSql = filesummaryinfoSql+" where 模型文件 like '%"+searchParams+"%'";
+			}
+			
 			con.readyPreparedStatement(filesummaryinfoSql);
 			JSONArray Modelfiles=null;
 			try {

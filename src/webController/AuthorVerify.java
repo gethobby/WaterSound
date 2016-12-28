@@ -66,7 +66,8 @@ public class AuthorVerify extends HttpServlet {
 		//testcode System.out.println(frompage);
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
-		DoLoginCheck ch=null;
+ 		DoLoginCheck ch=null;
+		//System.out.println(request.getParameter("backsystem"));
 		if(request.getParameter("backsystem")==null){
 			ch=new DoLoginCheck(username,password);
 		}

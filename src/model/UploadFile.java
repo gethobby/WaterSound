@@ -71,6 +71,22 @@ public class UploadFile {//模型文件的实体类
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	//12-9 如果存在模型文件，则删除，以便保留最新的
+	public void IfExistDeleteModel(String nodeIP,String modelName) {
+		  // 以下代码是删除softnode.fileinfo中可能存在的之前关于file的一条记录	
+  	       mySQLConnector remote	 = new mySQLConnector(nodeIP);	   
+ 		   System.out.println("如果存在，则删除模型: "+modelName+"对应记录");
+ 		   String deletesql = "delete from modelinfo.fileinfo where 模型文件=?";
+ 		   remote.readyPreparedStatement(deletesql);
+ 			remote.setString(1, modelName);
+ 			if (remote.executeUpdate()>0) {
+ 				System.out.println("modelinfo.fileinfo原先存在一条记录，已删除");
+ 			}else {
+ 				System.out.println("modelinfo.fileinfo原先不存在一条记录，可以直接插入更新");
+ 			}
+	}
+	
 	public boolean checkInsert(String nodeIP)
 	{
 		boolean flag=true;

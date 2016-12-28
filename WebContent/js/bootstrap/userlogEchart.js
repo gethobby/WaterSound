@@ -17,7 +17,7 @@ function loadTimeLog(user){
 	var xdate=[];
 	var ytime=[];
     $.ajax({
-    	url: '/NodesoftManage/Getplatformlog?logname=userlog&username='+user,
+    	url: '/WaterSound/Getplatformlog?logname=userlog&username='+user,
     	success:function(data){	
     		var len = data.length-1;
     		while(len>=0)
@@ -125,7 +125,7 @@ function loadRecentTool(user)
 function loadRecentDataStatistics(user)
 {
 	var htmlobj=$.ajax({
-		url:'/NodesoftManage/Getplatformlog?logname=datastatistic&username='+user,
+		url:'/WaterSound/Getplatformlog?logname=datastatistic&username='+user,
 		async:false
 		});
 	var param=htmlobj.responseText.split(',');

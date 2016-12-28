@@ -14,6 +14,9 @@ else if (request.getAttribute("softlist") == null) {
 <% 
 }
 %>
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,8 +39,8 @@ else if (request.getAttribute("softlist") == null) {
 <div class="testing">
 	<header class="main">
 		<h1><strong>水声数据</strong> 管理平台</h1>
-		<span class="button blue" style="margin-top: -23px; float: right; position: relative;" onclick="window.open('SearchObjectiveSoft.jsp')">查询</span>
-		<input type="text" value="软件名称" id="search">
+		<span class="button blue" style="margin-top: -23px; float: right; position: relative;" onclick="searchSoft()">查询</span>
+		<input id="search"  type="text"  >
 	</header>
 	<section class="user" >
 		<div class="profile-img">
@@ -172,6 +175,15 @@ $('.cycle').cycle({
     prev:    '.left-btn', 
     next:    '.right-btn'
 });
+// search soft like % key %
+function searchSoft(){
+	
+	var params = document.getElementById("search").value;
+	//alert(params);	
+	window.open("ComputeMain.jsp?searchParams="+params);
+}
+
+
 </script>
 </body>
 </html>

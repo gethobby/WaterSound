@@ -19,7 +19,7 @@ function loadNodeStatistics()
 	var xdate=[];
 	var yusetime=[];
     $.ajax({
-    	url: '/NodesoftManage/Getplatformlog?logname=nodelog',
+    	url: '/WaterSound/Getplatformlog?logname=nodelog',
     	success:function(data){	
     		var len = data.length-1;
     		while(len>=0)

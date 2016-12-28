@@ -38,8 +38,8 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 <div class="testing">
 	<header class="main">
 		<h1><strong>水声数据</strong> 管理平台</h1>
-		<span class="button blue" style="margin-top: -23px; float: right; position: relative;" onclick="window.open('SearchModelFile.jsp')">查询</span>
-		<input type="text" value="模型名称" id="search">
+		<span class="button blue" style="margin-top: -23px; float: right; position: relative;" onclick="GetModelList()">查询</span>
+		<input  type="text" id="search">
 	</header>
 	<section class="user" >
 		<div class="profile-img">
@@ -86,7 +86,7 @@ else if (request.getAttribute("SavedNodeDBList") == null) {
 					<label>存储节点:</label> 
 					<select id="DB_NO">
 					   <c:forEach items="${SavedNodeDBList}" var="DB" varStatus="status">
-					        <option  value='${DB[1]}'>${DB[1]}</option>
+					        <option  value='${DB[1]}'>${DB[1]}--${DB[2]}</option>
 					    </c:forEach>
 					</select>
 						<button id="DB_Bnt" name="load" value="加载" class="right-btn" onclick="GetModelList()" style="font-size: 10px; background: #719e37;margin-top:-15px;width:60px">加载</button>				   
@@ -262,6 +262,7 @@ function closenewObjectinfo(){
 	targetsection.previousElementSibling.style.display='';
 	targetsection.style.display='none';
 }
+
 </script>
 </body>
 </html>

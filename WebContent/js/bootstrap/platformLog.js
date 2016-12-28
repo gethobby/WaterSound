@@ -19,7 +19,7 @@ function loadPlatformLog()
 function loadPlatformDS()
 {
 	var htmlobj=$.ajax({
-		url:'/NodesoftManage/Getplatformlog?logname=datastatistic',
+		url:'/WaterSound/Getplatformlog?logname=datastatistic',
 		async:false
 		});
 	var param=htmlobj.responseText.split(',');
@@ -304,7 +304,7 @@ function loadPlatformUS()
 		            data: (function () {
 		                var d = [];
 		                $.ajax({
-		                	url: '/NodesoftManage/Getplatformlog?logname=platformlog&tid='+Math.random(),
+		                	url: '/WaterSound/Getplatformlog?logname=platformlog&tid='+Math.random(),
 		                	dataType: 'json',
 		                	async:false,
 		                	success:function(data){	

@@ -40,6 +40,25 @@ public class GetAvailableSoft extends HttpServlet {
 		// TODO Auto-generated method stub
 		doPost(request,response);
 	}
+	
+	//释放模型至存储节点数据库,所以需要nodeIP
+	protected String[] GetSoftsByNodeIPAndModelID(String nodeIP,int modelID) {
+		mySQLConnector con=new mySQLConnector(nodeIP);
+		String getObjectivesoftsSql="select 适用软件 from modelinfo.fileinfo where fileID=?";
+		con.readyPreparedStatement(getObjectivesoftsSql);
+		con.setInt(1, modelID);
+		ResultSet rs=con.executeQuery();
+		String[] softs=null;
+		try {
+			if(rs.next()){
+				softs=rs.getString(1).split(",");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return softs;
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -48,7 +67,8 @@ public class GetAvailableSoft extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		
-		if(request.getParameter("fileID")!=null)
+		String nodeIP = request.getParameter("nodeIP");
+		if((request.getParameter("fileID")!=null)&&(nodeIP!=null)&&(nodeIP!=""))
 		{
 			/*
 			 * 此处为用户选中要操作的模型文件获取合适的目标特性软件
@@ -56,7 +76,7 @@ public class GetAvailableSoft extends HttpServlet {
 			 * step2.根据软件是否有空闲资源筛选软件
 			 * step3.返回所有可用软件的软件编号、名称、logo图片
 			 * */
-			mySQLConnector con=new mySQLConnector();
+		/*	mySQLConnector con=new mySQLConnector();
 			String getObjectivesoftsSql="select 适用软件 from softnode.fileinfo where fileID=?";
 			con.readyPreparedStatement(getObjectivesoftsSql);
 			con.setInt(1, Integer.parseInt(request.getParameter("fileID")));
@@ -69,7 +89,13 @@ public class GetAvailableSoft extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
+			//以下四行是为了配合nodeIP和新添加的函数
+			int modelID = Integer.parseInt(request.getParameter("fileID"));
+			String[] softs = GetSoftsByNodeIPAndModelID(nodeIP, modelID);			
+			mySQLConnector con = new mySQLConnector();
+			ResultSet rs=null;
+			
 			if(softs!=null&&softs.length>0)
 			{
 				int[] weights=new int[softs.length];
@@ -140,7 +166,7 @@ public class GetAvailableSoft extends HttpServlet {
 				}
 				con.close();
 			}
-			
+		  
 		}	
 	}
 	

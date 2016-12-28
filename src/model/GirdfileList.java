@@ -11,7 +11,7 @@ public class GirdfileList {
 
 	String checkedFileSql="select fileID,模型文件,storepath,适用软件  "
 			+ "from modelinfo.fileinfo ";
-	String SavedNodeDBSql="select nodeID,IPAddress  "
+	String SavedNodeDBSql="select nodeID,IPAddress,class  "
 			+ "from savednode.nodeinfo ";
 //	String unCheckedFileSql="select ID,filename from gridfile where verified=0;";
 //	String searchFileSql="select ID,filename from gridfile where filename LIKE ?;";
@@ -79,7 +79,7 @@ public class GirdfileList {
 		arrayList1 = new ArrayList<String>();
 		arrayList2 = new ArrayList<String[]>();
 		ArrayList<String[]> list = null;
-		mySQLConnector con=new mySQLConnector();
+		mySQLConnector con=new mySQLConnector();		
 		ResultSet rs=con.executeQuery(UserlistSql);
 		try
 		{		
@@ -148,13 +148,19 @@ public class GirdfileList {
 	 * getSoftList
 	 * @return    返回数据库中现存的所有软件记录
 	 */
-	public ArrayList<String[]> getSoftList()
+	public ArrayList<String[]> getSoftList(String searchParams)
 	{
 		arrayList1 = new ArrayList<String>();
 		arrayList2 = new ArrayList<String[]>();
 		ArrayList<String[]> list = null;
 		mySQLConnector con=new mySQLConnector();
-		ResultSet rs=con.executeQuery(SoftlistSql);
+		
+		String querysql = SoftlistSql;
+		if (searchParams!=""&&searchParams!=null) {
+			//System.out.println("查询参数==="+searchParams);
+			querysql = querysql+" where softname like '%"+searchParams+"%'";
+		}
+		ResultSet rs=con.executeQuery(querysql);
 		try
 		{		
 			convertList(rs);

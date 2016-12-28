@@ -182,8 +182,12 @@ public class UploadServlet extends HttpServlet {
                     filename=fullpath.substring(fullpath.lastIndexOf('\\')+1);
 
                     File file = new File(savePath + "/" + filename);
-                    
-                    if(!file.exists()){
+                    if (file.exists()) {
+                    	response.getWriter().write("<script>parent.callback('Warn!文件名称冲突,将覆盖原有文件！')</script>");
+                    	System.out.println(filename+"文件名称冲突,将删除原有文件，上传最新的！");
+                    	file.delete();                    	
+					}
+                 
 						System.out.println(filename + "文件上传开始……");
 
 						try{
@@ -209,16 +213,7 @@ public class UploadServlet extends HttpServlet {
 							
 						} catch (Exception e) {
 							e.printStackTrace();
-						}
-                    }
-                    else{
-                    	logger.debug("admin upload file:"+filename+" failed!");
-
-            			response.getWriter().write("<script>parent.callback('Failed!文件名称冲突,请重新命名！')</script>");
-                    	System.out.println(filename+"文件名称冲突,请重新命名！");
-                    	
-                    	return "";
-                    }
+						}        
                 }
                 else{
                 	return "";

@@ -1,10 +1,19 @@
 package model;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +22,46 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class Util {
+	
+	public static void Unzip(String fromPath,String toPath) {
+		  // TODO Auto-generated method stub  
+      long startTime=System.currentTimeMillis();  
+      try {  
+          ZipInputStream Zin=new ZipInputStream(new FileInputStream(  
+                  fromPath));//输入源zip路径  
+          BufferedInputStream Bin=new BufferedInputStream(Zin);  
+          String Parent=toPath; //输出路径（文件夹目录）  
+          File Fout=null;  
+          ZipEntry entry;  
+          try {  
+              while((entry = Zin.getNextEntry())!=null && !entry.isDirectory()){  
+                  Fout=new File(Parent,entry.getName());  
+                  if(!Fout.exists()){  
+                      (new File(Fout.getParent())).mkdirs();  
+                  }  
+                  FileOutputStream out=new FileOutputStream(Fout);  
+                  BufferedOutputStream Bout=new BufferedOutputStream(out);  
+                  int b;  
+                  while((b=Bin.read())!=-1){  
+                      Bout.write(b);  
+                  }  
+                  Bout.close();  
+                  out.close();  
+                  System.out.println(Fout+"解压成功");      
+              }  
+              Bin.close();  
+              Zin.close();  
+          } catch (IOException e) {  
+              // TODO Auto-generated catch block  
+              e.printStackTrace();  
+          }  
+      } catch (FileNotFoundException e) {  
+          // TODO Auto-generated catch block  
+          e.printStackTrace();  
+      }  
+      long endTime=System.currentTimeMillis();  
+      System.out.println("耗费时间： "+(endTime-startTime)+" ms");
+	}
 	
 	public static String formatDate(Date date,String format){
 		String result="";
@@ -75,7 +124,7 @@ public class Util {
 			commons[0]=Gobal.NODE_COMMUNICATE_APP;
 			commons[1]=cmd;//"0:上传";
 			commons[2]=IP;//"127.0.0.1";
-			commons[3]=Integer.toString(port);//"6666";
+			commons[3]=Integer.toString(port);//"6000";
 			
 			if(filepath==null) commons[4]="NULL";
 			else commons[4]=filepath;//"D:\\file\\te stSN.txt";
@@ -96,7 +145,7 @@ public class Util {
 	   }
 	  /**
 		 * 
-		 * @param cmd 服务器发出的命令：0表示上传，表示下载
+		 * @param cmd 服务器发出的命令：0表示上传，1表示下载
 		 * @param IP  节点机的IP(因为节点机socket是通信C端)
 		 * @param port 服务器端的socket的Port(为了方便，统一由config.txt确定)
 		 * @param filepath 要从节点机中下载下来的文件(包含后缀)
